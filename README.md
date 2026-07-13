@@ -1,3 +1,5 @@
 # AVIS
 ## Autonomous Vegetation Imaging System
-A CNN trained off of the PlantVillage dataset designed for drones to autonomously detect diseases in plants.
+Early detection of plant diseases is critical for supporting sustainable agriculture. However, manual crop inspection is time-consuming, inconsistent, and often inaccessible to small-scale farmers. This project presents a plant disease detection system that uses RGB imaging and machine learning to automatically identify diseased crops in real time.
+A convolutional neural network (CNN) was trained using the publicly available PlantVillage dataset, which contains labeled images of healthy and diseased plant leaves. The dataset was preprocessed through image resizing, normalization, and data augmentation to improve model robustness. The model was trained using TensorFlow/Keras and evaluated using accuracy metrics, loss tracking, and confusion matrix analysis to measure classification performance across disease classes.Results show that the trained model achieves high classification accuracy. 
+This project demonstrates that combining affordable drone platforms with machine learning can provide scalable, automated crop monitoring solutions. 
