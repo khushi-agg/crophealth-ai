@@ -1,8 +1,8 @@
-"""AVIS training pipeline (PyTorch).
+"""CropHealth AI training pipeline (PyTorch).
 
 Trains a MobileNetV2 leaf-disease classifier on dataset/train, splits dataset/val
 into a validation half (model selection + temperature calibration) and a held-out
-test half (reported metrics only), then exports an ONNX model that the AVIS web
+test half (reported metrics only), then exports an ONNX model that the CropHealth AI web
 app runs fully on-device.
 
 Fixes the known issues of the original Keras prototype (see legacy/):

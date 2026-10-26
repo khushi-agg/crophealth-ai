@@ -33,7 +33,7 @@ const HEALTHY = (crop: Crop, ipm: string, en: string, es: string, pa: string): D
   info: {
     en: {
       name: `Healthy ${en}`,
-      summary: "No signs of the diseases AVIS knows were found on this leaf.",
+      summary: "No signs of the diseases CropHealth AI knows were found on this leaf.",
       urgent: ["Keep scouting weekly: check 20+ plants spread across the field.", "Scan again if you see new spots, yellowing or wilting.", "Check the Risk tab: humid or rainy weeks call for closer scouting."],
       symptoms: ["Even green color", "No spots, rings, water-soaked patches or fuzzy growth"],
       conditions: [],
@@ -41,7 +41,7 @@ const HEALTHY = (crop: Crop, ipm: string, en: string, es: string, pa: string): D
     },
     es: {
       name: `${es} sana`,
-      summary: "No se encontraron señales de las enfermedades que AVIS conoce en esta hoja.",
+      summary: "No se encontraron señales de las enfermedades que CropHealth AI conoce en esta hoja.",
       urgent: ["Siga revisando cada semana: más de 20 plantas repartidas por el campo.", "Escanee otra vez si ve manchas nuevas, amarillamiento o marchitez.", "Revise la pestaña Riesgo: en semanas húmedas o lluviosas revise más seguido."],
       symptoms: ["Color verde parejo", "Sin manchas, anillos, zonas aguadas ni moho"],
       conditions: [],
@@ -49,7 +49,7 @@ const HEALTHY = (crop: Crop, ipm: string, en: string, es: string, pa: string): D
     },
     pa: {
       name: `ਸਿਹਤਮੰਦ ${pa}`,
-      summary: "ਇਸ ਪੱਤੇ 'ਤੇ AVIS ਨੂੰ ਜਾਣੀਆਂ ਬਿਮਾਰੀਆਂ ਦੇ ਕੋਈ ਨਿਸ਼ਾਨ ਨਹੀਂ ਮਿਲੇ।",
+      summary: "ਇਸ ਪੱਤੇ 'ਤੇ CropHealth AI ਨੂੰ ਜਾਣੀਆਂ ਬਿਮਾਰੀਆਂ ਦੇ ਕੋਈ ਨਿਸ਼ਾਨ ਨਹੀਂ ਮਿਲੇ।",
       urgent: ["ਹਰ ਹਫ਼ਤੇ ਜਾਂਚ ਕਰਦੇ ਰਹੋ: ਖੇਤ ਵਿੱਚ ਫੈਲੇ 20+ ਪੌਦੇ ਦੇਖੋ।", "ਨਵੇਂ ਧੱਬੇ, ਪੀਲਾਪਣ ਜਾਂ ਮੁਰਝਾਉਣ ਦਿਖੇ ਤਾਂ ਦੁਬਾਰਾ ਸਕੈਨ ਕਰੋ।", "ਖ਼ਤਰਾ ਟੈਬ ਦੇਖੋ: ਨਮੀ ਜਾਂ ਮੀਂਹ ਵਾਲੇ ਹਫ਼ਤਿਆਂ ਵਿੱਚ ਵੱਧ ਜਾਂਚ ਕਰੋ।"],
       symptoms: ["ਇੱਕਸਾਰ ਹਰਾ ਰੰਗ", "ਕੋਈ ਧੱਬੇ, ਛੱਲੇ, ਪਾਣੀ ਵਰਗੇ ਨਿਸ਼ਾਨ ਜਾਂ ਉੱਲੀ ਨਹੀਂ"],
       conditions: [],

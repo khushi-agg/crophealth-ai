@@ -11,8 +11,8 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["icon.svg", "icon-192.png", "icon-512.png"],
       manifest: {
-        name: "AVIS Crop Health",
-        short_name: "AVIS",
+        name: "CropHealth AI",
+        short_name: "CropHealth",
         description: "Offline AI crop disease checks for Central Valley growers.",
         theme_color: "#14361f",
         background_color: "#f6f4ee",

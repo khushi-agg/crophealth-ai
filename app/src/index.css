@@ -44,9 +44,9 @@ input[type="checkbox"] { width: 24px; height: 24px; accent-color: var(--green-70
   padding: 10px 16px; background: var(--green-900); color: #fff;
 }
 .topbar select { width: auto; padding: 6px 8px; border: 0; }
-.brand { display: flex; align-items: center; gap: 8px; background: none; border: 0; color: #fff; font-weight: 800; font-size: 1.2rem; letter-spacing: 0.06em; cursor: pointer; }
+.brand { display: flex; align-items: center; gap: 8px; background: none; border: 0; color: #fff; font-weight: 800; font-size: 1.2rem; letter-spacing: 0.02em; cursor: pointer; white-space: nowrap; }
 .brand img { width: 30px; height: 30px; }
-.net { margin-left: auto; font-size: 0.75rem; opacity: 0.9; }
+.net { margin-left: auto; font-size: 0.75rem; opacity: 0.9; white-space: nowrap; }
 .net.off { color: var(--sun); }
 
 main { padding: 16px; }
@@ -73,7 +73,7 @@ button.card { width: 100%; cursor: pointer; font: inherit; }
     repeating-linear-gradient(100deg, transparent 0 22px, rgba(255,255,255,.05) 22px 24px);
   color: #fff; border-radius: 22px; padding: 22px 18px; display: flex; flex-direction: column; gap: 12px;
 }
-.hero h1 { font-size: 2.2rem; letter-spacing: 0.08em; }
+.hero h1 { font-size: 2rem; letter-spacing: 0.02em; }
 .hero p { margin: 0; font-size: 1.05rem; }
 .hero small { opacity: 0.85; }
 

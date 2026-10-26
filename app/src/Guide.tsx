@@ -43,7 +43,7 @@ export default function Guide() {
       <div className="card">
         <h3>{t("about")}</h3>
         <p>
-          AVIS (Autonomous Vegetation Imaging System) runs a MobileNetV2 neural network directly on your phone.
+          CropHealth AI runs a MobileNetV2 neural network directly on your phone.
           It was trained on 4,722 leaf images from the public PlantVillage dataset and scored on images it never saw during training.
         </p>
         {info && (
@@ -54,7 +54,7 @@ export default function Guide() {
           </ul>
         )}
         <p className="muted small">
-          Lab photos are cleaner than field photos, so real-world accuracy will be lower. AVIS answers “not sure” instead of guessing when confidence is low.
+          Lab photos are cleaner than field photos, so real-world accuracy will be lower. CropHealth AI answers “not sure” instead of guessing when confidence is low.
           Spanish and Punjabi text should be reviewed by native-speaking growers before wide release.
         </p>
         <p className="small">🔒 {t("privacy")}</p>

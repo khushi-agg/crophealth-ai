@@ -42,7 +42,7 @@ export default function App() {
   return (
     <LangContext.Provider value={{ lang, t }}>
       <header className="topbar">
-        <button className="brand" onClick={() => setTab("home")}><img src={`${import.meta.env.BASE_URL}icon.svg`} alt="" /> AVIS</button>
+        <button className="brand" onClick={() => setTab("home")}><img src={`${import.meta.env.BASE_URL}icon.svg`} alt="" /> CropHealth AI</button>
         <span className={`net ${online ? "on" : "off"}`}>{online ? "● " + t("online") : "○ " + t("offline")}</span>
         <select aria-label={t("language")} value={lang} onChange={(e) => setLang(e.target.value as Lang)}>
           {LANGS.map((l) => <option key={l.id} value={l.id}>{l.label}</option>)}
@@ -91,7 +91,7 @@ function Home({ scans, go }: { scans: ScanRecord[]; go: (t: Tab) => void }) {
   return (
     <div className="stack">
       <section className="hero">
-        <h1>AVIS</h1>
+        <h1>CropHealth AI</h1>
         <p>{t("appTagline")}</p>
         <button className="big-btn light" onClick={() => go("scan")}>📷 {t("scanLeaf")}</button>
         <small>{t("scanLeafSub")}</small>

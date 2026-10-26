@@ -1,6 +1,6 @@
-# 🌱 AVIS: Crop disease checks for Central Valley farmers
+# 🌱 CropHealth AI: Crop disease checks for Central Valley farmers
 
-**AVIS (Autonomous Vegetation Imaging System)** is a free, offline-first phone app that helps
+**CropHealth AI** (formerly AVIS, the Autonomous Vegetation Imaging System) is a free, offline-first phone app that helps
 California Central Valley growers and farmworkers catch crop disease early. Photograph a leaf,
 or upload a low-altitude drone photo, and an AI model **running entirely on the phone** checks it
 for disease in about a second. It needs no cell signal, no account, and no upload.
@@ -14,23 +14,23 @@ for disease in about a second. It needs no cell signal, no account, and no uploa
 
 ---
 
-## Why AVIS
+## Why CropHealth AI
 
 The Central Valley is one of the most productive farming regions in the world, and it has three problems a generic plant app doesn't solve:
 
-| Problem in the Valley | What AVIS does |
+| Problem in the Valley | What CropHealth AI does |
 |---|---|
 | Weak or no cell signal out in the fields | The model and the whole app are cached on the phone, so scans work in airplane mode |
 | Many growers and farmworkers speak Spanish or Punjabi | The full interface and disease guidance are in **English, Spanish and Punjabi**, with read-aloud |
 | Late blight can destroy a tomato or potato field within weeks of cool, foggy weather | A **7-day risk forecast** warns *before* conditions favor disease |
-| A wrong AI answer costs real money | AVIS shows **where** it saw disease, says **"not sure"** instead of guessing, and sends serious cases to a UC Cooperative Extension farm advisor or licensed PCA |
+| A wrong AI answer costs real money | CropHealth AI shows **where** it saw disease, says **"not sure"** instead of guessing, and sends serious cases to a UC Cooperative Extension farm advisor or licensed PCA |
 | Big fields can't be walked leaf by leaf | **Drone mode** splits aerial photos into zones and pins hot spots on a map using the photo's GPS |
 
 ## Features
 
 - 📷 **Leaf scan.** Take a photo or upload one. On-device MobileNetV2 inference via ONNX Runtime Web (WebAssembly).
 - 🔥 **Explainable results.** A class-activation heat map shows which part of the leaf drove the diagnosis.
-- ❔ **Honest uncertainty.** Calibrated confidence (temperature scaling). AVIS says "not sure" below 60% confidence or when the photo has too little leaf in it.
+- ❔ **Honest uncertainty.** Calibrated confidence (temperature scaling). CropHealth AI says "not sure" below 60% confidence or when the photo has too little leaf in it.
 - 📸 **Photo quality checks.** Warns when a photo is too dark, too bright, blurry, or has too little leaf.
 - 🛸 **Drone / wide-photo mode.** Tiles each frame, skips soil and sky, scores plant zones, colors a scouting grid, and reads EXIF GPS. Accepts batch uploads.
 - 🌦️ **Disease risk forecast.** Open-Meteo hourly weather plus the **Hutton criteria** for late blight and a warm-and-wet hour model for bacterial spot, for 14 Valley towns or your GPS location.
@@ -68,13 +68,13 @@ The weakest class is `potato-healthy` (F1 0.936, only 22 test images), the small
 |---|---|
 | ![curves](ml/results/training_curves.png) | ![confusion](ml/results/confusion_matrix.png) |
 
-> **Read these numbers carefully.** PlantVillage images are single leaves photographed in a lab on plain backgrounds. Field photos and web photos are much harder, so expect lower accuracy in real use. That's why AVIS shows uncertainty and points people to experts.
+> **Read these numbers carefully.** PlantVillage images are single leaves photographed in a lab on plain backgrounds. Field photos and web photos are much harder, so expect lower accuracy in real use. That's why CropHealth AI shows uncertainty and points people to experts.
 
 ### What I fixed from my first prototype
 
 My first version ([legacy/](legacy/)) was a Keras webcam script. I listed its problems and fixed each one:
 
-| Prototype problem | Fix in AVIS |
+| Prototype problem | Fix in CropHealth AI |
 |---|---|
 | Fed BGR camera frames to a model trained on RGB images | The browser canvas gives RGB, and normalization is built into the exported model |
 | No held-out test set | Deterministic validation/test split |
@@ -146,11 +146,11 @@ legacy/     original Keras + OpenCV prototype
 
 ## Limitations (stated plainly)
 
-1. Three diseases on three crops. Any other problem, such as powdery mildew, nutrient deficiency or pests, is outside what the model knows. AVIS may say "not sure," or it may be wrong.
+1. Three diseases on three crops. Any other problem, such as powdery mildew, nutrient deficiency or pests, is outside what the model knows. CropHealth AI may say "not sure," or it may be wrong.
 2. Trained on lab images. Real field and drone performance **has not been validated yet**. Drone mode needs low flights (about 2–5 m) where individual leaves are visible.
 3. The risk forecast uses published rules of thumb, not a calibrated local model. It's a prompt to scout, not a spray decision.
 4. Spanish and Punjabi text should be reviewed by native-speaking growers.
-5. AVIS is a screening tool, not a diagnosis. Treatment decisions belong with a UCCE farm advisor or licensed PCA.
+5. CropHealth AI is a screening tool, not a diagnosis. Treatment decisions belong with a UCCE farm advisor or licensed PCA.
 
 ## Roadmap
 
