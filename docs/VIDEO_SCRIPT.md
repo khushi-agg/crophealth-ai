@@ -37,10 +37,10 @@ Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. One presenter reads every line. Spoke
 
 | | |
 |---|---|
-| **Shot** | **Screen recording.** First show the phone's **airplane mode icon**. Open CropHealth AI from the home screen → Scan → tap 🍅 Tomato → Choose from gallery → diseased tomato leaf → result appears with the **Heat map** already on. Tap **Photo**, then **Heat map** again to show the before and after. Scroll to "What to do now." |
-| **On-screen text** | `✈️ Airplane mode: no internet` · `AI runs on the phone` · `Blue = healthy · Red = disease` |
+| **Shot** | **Screen recording.** First show the phone's **airplane mode icon**. Open CropHealth AI from the home screen → Scan → tap 🍅 Tomato → Choose from gallery → diseased tomato leaf → result appears. Tap **Show where**. Scroll to "What to do now." |
+| **On-screen text** | `✈️ Airplane mode: no internet` · `AI runs on the phone` |
 
-> Here's CropHealth AI in airplane mode. I pick tomato and choose a leaf photo. The AI model runs right on the phone, and in about a second it says *possible late blight*. Then it switches to a heat map: healthy tissue turns blue, and every lesion lights up red right where it is. It even estimates how many spots there are and how much of the leaf is affected, so the farmer doesn't have to just trust a black box.
+> Here's CropHealth AI in airplane mode. I pick tomato and choose a leaf photo. The AI model runs right on the phone, and in about a second it says *possible late blight*. Then it shows *where* it saw disease: these red areas are where the model focused, so the farmer doesn't have to just trust a black box.
 >
 > Below that are clear next steps based on University of California IPM guidance: what to look for, how it spreads, and to contact a farm advisor before spraying anything.
 

@@ -30,7 +30,7 @@ The full one-presenter script is in [VIDEO_SCRIPT.md](VIDEO_SCRIPT.md). Quick ou
 |---|---|---|
 | 0:00–0:15 | You on camera, then the app icon | "Hi, I'm ___ from ___, and this is CropHealth AI, a crop-disease scanner built for farmers in California's Central Valley." |
 | 0:15–0:40 | Valley farm photos / map of the Valley | "The Valley grows a huge share of America's food, but many fields have weak cell signal, and many growers and farmworkers speak Spanish or Punjabi. Diseases like late blight can wipe out a tomato field in a week or two if nobody catches them early." |
-| 0:40–1:20 | Phone: Scan → choose Tomato → gallery → diseased leaf → result with **Heat map** on | "You take a photo of a leaf. The AI runs right on the phone, so it works with no signal. It found late blight, and the heat map turns healthy tissue blue and lights up each lesion in red, with a spot count and % of leaf affected. Then it tells you what to do next, based on University of California IPM guidance." |
+| 0:40–1:20 | Phone: Scan → choose Tomato → gallery → diseased leaf → result, then tap **Show where** | "You take a photo of a leaf. The AI runs right on the phone, so it works with no signal. It found late blight, and the red highlight shows where it saw the lesions. Then it tells you what to do next, based on University of California IPM guidance." |
 | 1:20–1:35 | Healthy leaf → ✅; blurry or non-leaf photo → "Not sure" | "When it isn't confident, it says so instead of guessing. A wrong answer could cost a farmer a crop or money spent on sprays they didn't need." |
 | 1:35–1:50 | Switch language to Español, tap 🔊 Read aloud | "Everything works in English, Spanish and Punjabi, and it can read results out loud." |
 | 1:50–2:15 | Drone field map → upload `demo/drone/drone-damaged-field-73m.jpg` → red problem zones, acres, Navigate | "For whole fields, I upload a real drone photo. The app reads the drone's height and GPS, maps weak canopy across the field in red, measures it, and pins each problem zone on the map." |
@@ -48,7 +48,7 @@ The full one-presenter script is in [VIDEO_SCRIPT.md](VIDEO_SCRIPT.md). Quick ou
 | Judging area | Evidence |
 |---|---|
 | Quality of the idea / community impact | Built for a real local problem: Central Valley crops, weak rural signal, Spanish and Punjabi speakers, UC IPM and UCCE workflow |
-| Implementation | On-device AI, offline PWA, explainable heat maps, calibrated "not sure" answers, a drone field-health map with real acreage and GPS pins from drone flight data, weather risk models, three languages, CSV and print export |
+| Implementation | On-device AI, offline PWA, explainable "show where" highlights, calibrated "not sure" answers, a drone field-health map with real acreage and GPS pins from drone flight data, weather risk models, three languages, CSV and print export |
 | Skills demonstrated | Full ML pipeline (training, held-out testing, temperature calibration, ONNX export) plus a TypeScript/React front end |
 | Honesty and rigor | README lists the known limitations and the fixes made to the original prototype |
 
