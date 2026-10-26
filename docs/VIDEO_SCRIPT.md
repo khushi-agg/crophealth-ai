@@ -84,7 +84,7 @@ Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. One presenter reads every line. Spoke
 
 ## End card (2:45–2:50)
 
-`CropHealth AI · github.com/vyom-aggarwal/AVIS · [live app link]`
+`CropHealth AI · github.com/vyom-aggarwal/crophealth-ai · vyom-aggarwal.github.io/crophealth-ai`
 
 ---
 

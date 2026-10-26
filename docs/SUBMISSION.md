@@ -2,11 +2,14 @@
 
 **Deadline: Monday, October 26, 2026, 12:00 PM ET (9:00 AM PT).** Submissions can't be changed after the deadline.
 
+**Repo:** https://github.com/vyom-aggarwal/crophealth-ai · **Live app:** https://vyom-aggarwal.github.io/crophealth-ai/
+
 ## Checklist
 
 - [ ] You're registered at congressionalappchallenge.us as a solo entrant, and you live in or attend school in the district
 - [ ] Code is pushed to a **public** GitHub repo (`main` branch)
-- [ ] GitHub Pages is turned on (Settings → Pages → Source: **GitHub Actions**) and the live link works on a phone
+- [x] GitHub Pages is turned on (GitHub Actions source)
+- [ ] The live link works on your phone, including in airplane mode after the first load
 - [ ] Demo video is **1–3 minutes** and uploaded to YouTube as **Public** or **Unlisted** (check what your district requires)
 - [ ] The submission form has the repo link, video link, live app link, and a short description (below)
 - [ ] Every image used in the video is your own, from PlantVillage, or a web image you're allowed to use; credit sources in the video description

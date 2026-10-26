@@ -5,6 +5,8 @@ California Central Valley growers and farmworkers catch crop disease early. Phot
 or upload a low-altitude drone photo, and an AI model **running entirely on the phone** checks it
 for disease in about a second. It needs no cell signal, no account, and no upload.
 
+> **Live app:** https://vyom-aggarwal.github.io/crophealth-ai/ (open on your phone and choose *Add to Home Screen*)
+>
 > Built for the 2026 Congressional App Challenge. See [docs/SUBMISSION.md](docs/SUBMISSION.md) for the submission kit and demo script.
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-React-3178C6?logo=typescript&logoColor=white)

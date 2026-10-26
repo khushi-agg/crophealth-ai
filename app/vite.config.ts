@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 
-// BASE lets the same build run at a domain root or under /AVIS/ on GitHub Pages.
+// BASE lets the same build run at a domain root or under /crophealth-ai/ on GitHub Pages.
 export default defineConfig({
   base: process.env.BASE ?? "./",
   plugins: [
