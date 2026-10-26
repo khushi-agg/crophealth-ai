@@ -126,10 +126,14 @@ cd app && npm install && npm run dev
 
 Open the printed URL. To test on a phone on the same Wi-Fi network, run `npm run dev -- --host`. Production build: `npm run build`, which writes the output to `app/dist/`.
 
-**Deploy.** Source lives in `vyom-aggarwal/crophealth-ai`; the site is hosted from the mirror `khushi-agg/crophealth-ai` (GitHub Pages, source: GitHub Actions). [.github/workflows/deploy.yml](.github/workflows/deploy.yml) only runs in the mirror. Push to both:
+**Deploy.** Source lives in `vyom-aggarwal/crophealth-ai`; the site is hosted from the mirror `khushi-agg/crophealth-ai` (GitHub Pages, source: GitHub Actions). [.github/workflows/deploy.yml](.github/workflows/deploy.yml) only runs in the mirror. Push source as usual, then deploy by pushing the same commit to the mirror as the `khushi-agg` account (git uses the GitHub CLI's active account):
 
 ```bash
-git push origin main && git push hosting main
+git push origin main
+```
+
+```bash
+gh auth switch --user khushi-agg && git push hosting main && gh auth switch --user vyom-aggarwal
 ```
 
 (`hosting` is `https://khushi-agg@github.com/khushi-agg/crophealth-ai.git`.)
