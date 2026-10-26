@@ -28,7 +28,7 @@ export interface Disease {
   info: Record<Lang, Info>;
 }
 
-const HEALTHY = (crop: Crop, ipm: string, en: string, es: string, pa: string): Disease => ({
+const HEALTHY = (crop: Crop, ipm: string, en: string, es: string): Disease => ({
   crop, ipm,
   info: {
     en: {
@@ -47,26 +47,16 @@ const HEALTHY = (crop: Crop, ipm: string, en: string, es: string, pa: string): D
       conditions: [],
       prevention: ["Use semilla y plántulas certificadas libres de enfermedades", "Riegue en la base (goteo o surco) en vez de aspersión cuando sea posible", "Rote cultivos y elimine plantas voluntarias y montones de desecho"],
     },
-    pa: {
-      name: `ਸਿਹਤਮੰਦ ${pa}`,
-      summary: "ਇਸ ਪੱਤੇ 'ਤੇ CropHealth AI ਨੂੰ ਜਾਣੀਆਂ ਬਿਮਾਰੀਆਂ ਦੇ ਕੋਈ ਨਿਸ਼ਾਨ ਨਹੀਂ ਮਿਲੇ।",
-      urgent: ["ਹਰ ਹਫ਼ਤੇ ਜਾਂਚ ਕਰਦੇ ਰਹੋ: ਖੇਤ ਵਿੱਚ ਫੈਲੇ 20+ ਪੌਦੇ ਦੇਖੋ।", "ਨਵੇਂ ਧੱਬੇ, ਪੀਲਾਪਣ ਜਾਂ ਮੁਰਝਾਉਣ ਦਿਖੇ ਤਾਂ ਦੁਬਾਰਾ ਸਕੈਨ ਕਰੋ।", "ਖ਼ਤਰਾ ਟੈਬ ਦੇਖੋ: ਨਮੀ ਜਾਂ ਮੀਂਹ ਵਾਲੇ ਹਫ਼ਤਿਆਂ ਵਿੱਚ ਵੱਧ ਜਾਂਚ ਕਰੋ।"],
-      symptoms: ["ਇੱਕਸਾਰ ਹਰਾ ਰੰਗ", "ਕੋਈ ਧੱਬੇ, ਛੱਲੇ, ਪਾਣੀ ਵਰਗੇ ਨਿਸ਼ਾਨ ਜਾਂ ਉੱਲੀ ਨਹੀਂ"],
-      conditions: [],
-      prevention: ["ਪ੍ਰਮਾਣਿਤ ਬਿਮਾਰੀ-ਰਹਿਤ ਬੀਜ ਅਤੇ ਪਨੀਰੀ ਵਰਤੋ", "ਜਿੱਥੇ ਹੋ ਸਕੇ ਉੱਪਰੋਂ ਛਿੜਕਾਅ ਦੀ ਥਾਂ ਜੜ੍ਹਾਂ ਕੋਲ (ਤੁਪਕਾ ਜਾਂ ਖਾਲ) ਪਾਣੀ ਦਿਓ", "ਫ਼ਸਲੀ ਚੱਕਰ ਅਪਣਾਓ ਅਤੇ ਆਪੇ ਉੱਗੇ ਪੌਦੇ ਤੇ ਰਹਿੰਦ-ਖੂੰਹਦ ਦੇ ਢੇਰ ਹਟਾਓ"],
-    },
   },
 });
 
 const LATE_BLIGHT_CONDITIONS = {
   en: ["Cool, wet weather: about 60–70°F with rain, fog or heavy dew", "Humidity above 90% for many hours, common during valley fog", "Spores travel miles on the wind, so one infected field puts neighbors at risk"],
   es: ["Clima fresco y húmedo: unos 60–70°F con lluvia, neblina o rocío fuerte", "Humedad mayor a 90% por muchas horas, común con la neblina del valle", "Las esporas viajan millas con el viento: un campo infectado pone en riesgo a los vecinos"],
-  pa: ["ਠੰਢਾ ਅਤੇ ਗਿੱਲਾ ਮੌਸਮ: ਲਗਭਗ 60–70°F ਨਾਲ ਮੀਂਹ, ਧੁੰਦ ਜਾਂ ਭਾਰੀ ਤ੍ਰੇਲ", "ਕਈ ਘੰਟੇ 90% ਤੋਂ ਵੱਧ ਨਮੀ, ਜੋ ਵੈਲੀ ਦੀ ਧੁੰਦ ਵਿੱਚ ਆਮ ਹੈ", "ਬੀਜਾਣੂ ਹਵਾ ਨਾਲ ਮੀਲਾਂ ਤੱਕ ਜਾਂਦੇ ਹਨ, ਇਸ ਲਈ ਇੱਕ ਬਿਮਾਰ ਖੇਤ ਗੁਆਂਢੀਆਂ ਲਈ ਖ਼ਤਰਾ ਹੈ"],
 };
 const LATE_BLIGHT_URGENT = {
   en: ["Act fast: late blight can destroy a field within 1–2 weeks in cool, wet weather.", "Flag the spot and check nearby plants for more dark, greasy-looking lesions.", "Bag and remove infected plants; never leave them on cull piles.", "Contact your UC Cooperative Extension farm advisor or PCA today about registered protectant fungicides, and warn neighboring growers."],
   es: ["Actúe rápido: el tizón tardío puede destruir un campo en 1–2 semanas con clima fresco y húmedo.", "Marque el lugar y revise las plantas cercanas buscando más lesiones oscuras y grasosas.", "Embolse y retire las plantas infectadas; nunca las deje en montones de desecho.", "Contacte hoy a su asesor de UC Cooperative Extension o PCA sobre fungicidas protectores registrados, y avise a los agricultores vecinos."],
-  pa: ["ਛੇਤੀ ਕਾਰਵਾਈ ਕਰੋ: ਠੰਢੇ ਗਿੱਲੇ ਮੌਸਮ ਵਿੱਚ ਪਿਛੇਤਾ ਝੁਲਸ 1–2 ਹਫ਼ਤਿਆਂ ਵਿੱਚ ਖੇਤ ਤਬਾਹ ਕਰ ਸਕਦਾ ਹੈ।", "ਥਾਂ 'ਤੇ ਨਿਸ਼ਾਨ ਲਾਓ ਅਤੇ ਨੇੜਲੇ ਪੌਦਿਆਂ 'ਤੇ ਹੋਰ ਗੂੜ੍ਹੇ, ਤੇਲੀਏ ਧੱਬੇ ਦੇਖੋ।", "ਬਿਮਾਰ ਪੌਦੇ ਥੈਲੇ ਵਿੱਚ ਪਾ ਕੇ ਹਟਾਓ; ਕਦੇ ਵੀ ਰਹਿੰਦ-ਖੂੰਹਦ ਦੇ ਢੇਰ 'ਤੇ ਨਾ ਛੱਡੋ।", "ਰਜਿਸਟਰਡ ਬਚਾਅ ਉੱਲੀਨਾਸ਼ਕਾਂ ਬਾਰੇ ਅੱਜ ਹੀ ਆਪਣੇ UC Cooperative Extension ਸਲਾਹਕਾਰ ਜਾਂ PCA ਨਾਲ ਸੰਪਰਕ ਕਰੋ, ਅਤੇ ਗੁਆਂਢੀ ਕਿਸਾਨਾਂ ਨੂੰ ਦੱਸੋ।"],
 };
 
 export const DISEASES: Record<ClassId, Disease> = {
@@ -90,17 +80,9 @@ export const DISEASES: Record<ClassId, Disease> = {
         conditions: ["Clima cálido y húmedo: unos 75–86°F", "Lluvia, riego por aspersión y rocío fuerte", "Se propaga en semilla y plántulas infectadas, y por trabajadores entre plantas mojadas"],
         prevention: ["Compre semilla certificada y plántulas limpias", "Siembre variedades resistentes", "Rote 2–3 años sin chile ni tomate", "Incorpore o retire los residuos después de la cosecha"],
       },
-      pa: {
-        name: "ਬੈਕਟੀਰੀਅਲ ਧੱਬਾ ਰੋਗ", pathogen: "Xanthomonas spp.",
-        summary: "ਇੱਕ ਬੈਕਟੀਰੀਆ ਰੋਗ ਜੋ ਪੱਤਿਆਂ 'ਤੇ ਧੱਬੇ, ਪੱਤੇ ਝੜਨਾ ਅਤੇ ਫਲ 'ਤੇ ਖੁਰਦਰੇ ਨਿਸ਼ਾਨ ਬਣਾਉਂਦਾ ਹੈ। ਇਹ ਛਿੱਟਿਆਂ ਨਾਲ ਫੈਲਦਾ ਹੈ ਅਤੇ ਲੱਗਣ ਤੋਂ ਬਾਅਦ ਠੀਕ ਨਹੀਂ ਹੁੰਦਾ, ਇਸ ਲਈ ਟੀਚਾ ਇਸਨੂੰ ਹੌਲਾ ਕਰਨਾ ਹੈ।",
-        urgent: ["ਪੌਦੇ ਗਿੱਲੇ ਹੋਣ ਵੇਲੇ ਖੇਤ ਵਿੱਚ ਕੰਮ ਨਾ ਕਰੋ; ਇਸੇ ਤਰ੍ਹਾਂ ਇਹ ਹੱਥਾਂ ਅਤੇ ਸੰਦਾਂ ਨਾਲ ਫੈਲਦਾ ਹੈ।", "ਜੇ ਹੋ ਸਕੇ ਤਾਂ ਫੁਹਾਰੇ ਦੀ ਥਾਂ ਤੁਪਕਾ ਜਾਂ ਖਾਲ ਸਿੰਚਾਈ ਕਰੋ।", "ਬਹੁਤ ਬਿਮਾਰ ਪੌਦੇ ਹਟਾਓ ਅਤੇ ਸੰਦ ਤੇ ਡੱਬੇ ਸਾਫ਼ ਕਰੋ।", "ਆਪਣੇ ਸਲਾਹਕਾਰ ਜਾਂ PCA ਨੂੰ ਪੁੱਛੋ ਕਿ ਰਜਿਸਟਰਡ ਤਾਂਬਾ ਪ੍ਰੋਗਰਾਮ ਠੀਕ ਹੈ ਜਾਂ ਨਹੀਂ; ਤਾਂਬੇ ਪ੍ਰਤੀ ਰੋਧਕਤਾ ਆਮ ਹੈ।"],
-        symptoms: ["ਛੋਟੇ ਪਾਣੀ ਵਰਗੇ ਧੱਬੇ ਜੋ ਪੀਲੇ ਕਿਨਾਰੇ ਨਾਲ ਭੂਰੇ ਹੋ ਜਾਂਦੇ ਹਨ", "ਧੱਬੇ ਮਿਲ ਜਾਂਦੇ ਹਨ ਅਤੇ ਪੱਤੇ ਪੀਲੇ ਹੋ ਕੇ ਝੜ ਜਾਂਦੇ ਹਨ", "ਫਲ 'ਤੇ ਉੱਭਰੇ, ਖੁਰਦਰੇ ਭੂਰੇ ਧੱਬੇ"],
-        conditions: ["ਗਰਮ ਅਤੇ ਗਿੱਲਾ ਮੌਸਮ: ਲਗਭਗ 75–86°F", "ਮੀਂਹ, ਫੁਹਾਰਾ ਸਿੰਚਾਈ ਅਤੇ ਭਾਰੀ ਤ੍ਰੇਲ", "ਬਿਮਾਰ ਬੀਜ ਅਤੇ ਪਨੀਰੀ ਨਾਲ, ਅਤੇ ਗਿੱਲੇ ਪੌਦਿਆਂ ਵਿੱਚ ਤੁਰਦੇ ਕਾਮਿਆਂ ਨਾਲ ਫੈਲਦਾ ਹੈ"],
-        prevention: ["ਪ੍ਰਮਾਣਿਤ, ਜਾਂਚਿਆ ਬੀਜ ਅਤੇ ਸਾਫ਼ ਪਨੀਰੀ ਖਰੀਦੋ", "ਰੋਗ-ਰੋਧਕ ਕਿਸਮਾਂ ਲਗਾਓ", "2–3 ਸਾਲ ਮਿਰਚ ਅਤੇ ਟਮਾਟਰ ਤੋਂ ਬਿਨਾਂ ਫ਼ਸਲੀ ਚੱਕਰ", "ਵਾਢੀ ਤੋਂ ਬਾਅਦ ਰਹਿੰਦ-ਖੂੰਹਦ ਵਾਹ ਦਿਓ ਜਾਂ ਹਟਾਓ"],
-      },
     },
   },
-  "bell-pepper-healthy": HEALTHY("pepper", "https://ipm.ucanr.edu/agriculture/peppers/", "bell pepper", "Chile morrón", "ਸ਼ਿਮਲਾ ਮਿਰਚ"),
+  "bell-pepper-healthy": HEALTHY("pepper", "https://ipm.ucanr.edu/agriculture/peppers/", "bell pepper", "Chile morrón"),
   "potato-diseased": {
     crop: "potato",
     ipm: "https://ipm.ucanr.edu/agriculture/potato/",
@@ -121,17 +103,9 @@ export const DISEASES: Record<ClassId, Disease> = {
         conditions: LATE_BLIGHT_CONDITIONS.es,
         prevention: ["Siembre semilla de papa certificada", "Destruya montones de desecho y papas voluntarias", "Evite el riego por aspersión en la tarde", "Revise la pestaña Riesgo y proteja las plantas antes del clima favorable al tizón"],
       },
-      pa: {
-        name: "ਪਿਛੇਤਾ ਝੁਲਸ ਰੋਗ", pathogen: "Phytophthora infestans",
-        summary: "ਇਹ ਉਹੀ ਰੋਗ ਹੈ ਜਿਸ ਕਾਰਨ ਆਇਰਲੈਂਡ ਵਿੱਚ ਆਲੂ ਦਾ ਕਾਲ ਪਿਆ ਸੀ। ਇਹ ਠੰਢੇ ਨਮੀ ਵਾਲੇ ਮੌਸਮ ਵਿੱਚ ਬਹੁਤ ਤੇਜ਼ ਫੈਲਦਾ ਹੈ ਅਤੇ ਸਟੋਰ ਕੀਤੇ ਆਲੂ ਵੀ ਗਾਲ ਸਕਦਾ ਹੈ।",
-        urgent: LATE_BLIGHT_URGENT.pa.concat(["ਵਾਢੀ ਤੋਂ 2–3 ਹਫ਼ਤੇ ਪਹਿਲਾਂ ਵੇਲਾਂ ਖ਼ਤਮ ਕਰੋ ਤਾਂ ਜੋ ਪੁਟਾਈ ਵੇਲੇ ਆਲੂ ਬਿਮਾਰ ਨਾ ਹੋਣ।"]),
-        symptoms: ["ਪੱਤਿਆਂ 'ਤੇ ਗੂੜ੍ਹੇ, ਪਾਣੀ ਵਰਗੇ ਧੱਬੇ, ਅਕਸਰ ਸਿਰਿਆਂ ਜਾਂ ਕਿਨਾਰਿਆਂ ਤੋਂ", "ਨਮੀ ਵਾਲੀਆਂ ਸਵੇਰਾਂ ਨੂੰ ਪੱਤੇ ਦੇ ਹੇਠਾਂ ਚਿੱਟੀ ਉੱਲੀ", "ਭੂਰੇ, ਡਿੱਗੇ ਤਣੇ; ਆਲੂ ਦੇ ਅੰਦਰ ਲਾਲ-ਭੂਰਾ ਸੜਨ"],
-        conditions: LATE_BLIGHT_CONDITIONS.pa,
-        prevention: ["ਪ੍ਰਮਾਣਿਤ ਬੀਜ ਆਲੂ ਲਗਾਓ", "ਰਹਿੰਦ-ਖੂੰਹਦ ਦੇ ਢੇਰ ਅਤੇ ਆਪੇ ਉੱਗੇ ਆਲੂ ਨਸ਼ਟ ਕਰੋ", "ਸ਼ਾਮ ਨੂੰ ਫੁਹਾਰਾ ਸਿੰਚਾਈ ਤੋਂ ਬਚੋ", "ਖ਼ਤਰਾ ਟੈਬ ਦੇਖੋ ਅਤੇ ਝੁਲਸ ਵਾਲੇ ਮੌਸਮ ਤੋਂ ਪਹਿਲਾਂ ਪੌਦਿਆਂ ਦਾ ਬਚਾਅ ਕਰੋ"],
-      },
     },
   },
-  "potato-healthy": HEALTHY("potato", "https://ipm.ucanr.edu/agriculture/potato/", "potato", "Papa", "ਆਲੂ"),
+  "potato-healthy": HEALTHY("potato", "https://ipm.ucanr.edu/agriculture/potato/", "potato", "Papa"),
   "tomato-diseased": {
     crop: "tomato",
     ipm: "https://ipm.ucanr.edu/agriculture/tomato/",
@@ -152,15 +126,7 @@ export const DISEASES: Record<ClassId, Disease> = {
         conditions: LATE_BLIGHT_CONDITIONS.es,
         prevention: ["Use plántulas limpias y elimine tomates y papas voluntarias", "Deje espacio y tutore las plantas para que las hojas se sequen rápido", "Evite el riego por aspersión, sobre todo en la tarde", "Revise la pestaña Riesgo y proteja las plantas antes del clima favorable al tizón"],
       },
-      pa: {
-        name: "ਪਿਛੇਤਾ ਝੁਲਸ ਰੋਗ", pathogen: "Phytophthora infestans",
-        summary: "ਇੱਕ ਤੇਜ਼ ਫੈਲਣ ਵਾਲੀ ਉੱਲੀ ਜੋ ਠੰਢੇ ਨਮੀ ਵਾਲੇ ਮੌਸਮ ਵਿੱਚ ਟਮਾਟਰ ਦੇ ਪੱਤੇ, ਤਣੇ ਅਤੇ ਫਲ ਖ਼ਤਮ ਕਰਦੀ ਹੈ। ਬੀਜਾਣੂ ਖੇਤਾਂ ਵਿਚਕਾਰ ਉੱਡਦੇ ਹਨ, ਇਸ ਲਈ ਛੇਤੀ ਦੱਸਣਾ ਪੂਰੇ ਇਲਾਕੇ ਨੂੰ ਬਚਾਉਂਦਾ ਹੈ।",
-        urgent: LATE_BLIGHT_URGENT.pa,
-        symptoms: ["ਪੱਤਿਆਂ 'ਤੇ ਵੱਡੇ, ਤੇਲੀਏ, ਸਲੇਟੀ-ਹਰੇ ਤੋਂ ਭੂਰੇ ਧੱਬੇ", "ਨਮੀ ਵਾਲੀਆਂ ਸਵੇਰਾਂ ਨੂੰ ਧੱਬਿਆਂ ਦੇ ਕਿਨਾਰੇ ਚਿੱਟੀ ਉੱਲੀ", "ਕੱਚੇ ਫਲ 'ਤੇ ਸਖ਼ਤ, ਭੂਰਾ, ਤੇਲੀਆ ਸੜਨ"],
-        conditions: LATE_BLIGHT_CONDITIONS.pa,
-        prevention: ["ਸਾਫ਼ ਪਨੀਰੀ ਵਰਤੋ ਅਤੇ ਆਪੇ ਉੱਗੇ ਟਮਾਟਰ ਤੇ ਆਲੂ ਹਟਾਓ", "ਪੌਦਿਆਂ ਵਿੱਚ ਥਾਂ ਛੱਡੋ ਅਤੇ ਸਹਾਰਾ ਦਿਓ ਤਾਂ ਜੋ ਪੱਤੇ ਛੇਤੀ ਸੁੱਕਣ", "ਖ਼ਾਸ ਕਰਕੇ ਸ਼ਾਮ ਨੂੰ ਫੁਹਾਰਾ ਸਿੰਚਾਈ ਤੋਂ ਬਚੋ", "ਖ਼ਤਰਾ ਟੈਬ ਦੇਖੋ ਅਤੇ ਝੁਲਸ ਵਾਲੇ ਮੌਸਮ ਤੋਂ ਪਹਿਲਾਂ ਪੌਦਿਆਂ ਦਾ ਬਚਾਅ ਕਰੋ"],
-      },
     },
   },
-  "tomato-healthy": HEALTHY("tomato", "https://ipm.ucanr.edu/agriculture/tomato/", "tomato", "Tomate", "ਟਮਾਟਰ"),
+  "tomato-healthy": HEALTHY("tomato", "https://ipm.ucanr.edu/agriculture/tomato/", "tomato", "Tomate"),
 };

@@ -15,7 +15,7 @@ function readLang(): Lang {
     const s = localStorage.getItem("avis.lang") as Lang | null;
     if (s && s in STRINGS) return s;
   } catch { /* storage blocked */ }
-  return navigator.language.startsWith("es") ? "es" : navigator.language.startsWith("pa") ? "pa" : "en";
+  return navigator.language.startsWith("es") ? "es" : "en";
 }
 
 export default function App() {
@@ -125,7 +125,7 @@ function Risk() {
   const { f, err, load } = useForecast();
   const [busy, setBusy] = useState(false);
   async function pick(name: string, lat: number, lon: number) { setBusy(true); await load(name, lat, lon); setBusy(false); }
-  const locale = lang === "en" ? "en-US" : lang === "es" ? "es-US" : "pa-IN";
+  const locale = lang === "es" ? "es-US" : "en-US";
   return (
     <div className="stack">
       <h2>{t("riskTitle")}</h2>

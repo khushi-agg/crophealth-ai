@@ -55,7 +55,7 @@ export default function Guide() {
         )}
         <p className="muted small">
           Lab photos are cleaner than field photos, so real-world accuracy will be lower. CropHealth AI answers “not sure” instead of guessing when confidence is low.
-          Spanish and Punjabi text should be reviewed by native-speaking growers before wide release.
+          Spanish text should be reviewed by native speakers before wide release.
         </p>
         <p className="small">🔒 {t("privacy")}</p>
         <p className="small">⚠️ {t("disclaimer")}</p>

@@ -1,10 +1,9 @@
 import { createContext, useContext } from "react";
 
-export type Lang = "en" | "es" | "pa";
+export type Lang = "en" | "es";
 export const LANGS: { id: Lang; label: string; speech: string }[] = [
   { id: "en", label: "English", speech: "en-US" },
   { id: "es", label: "Español", speech: "es-US" },
-  { id: "pa", label: "ਪੰਜਾਬੀ", speech: "pa-IN" },
 ];
 
 const en = {
@@ -102,54 +101,9 @@ const es: Record<Key, string> = {
   location: "Zona",
 };
 
-const pa: Record<Key, string> = {
-  modeLeaf: "ਪੱਤੇ ਦੀ ਫੋਟੋ", modeDrone: "ਡਰੋਨ ਖੇਤ ਨਕਸ਼ਾ",
-  droneSub: "ਡਰੋਨ ਤੋਂ ਸਿੱਧੀਆਂ ਹੇਠਾਂ ਵੱਲ ਲਈਆਂ ਫੋਟੋਆਂ ਅੱਪਲੋਡ ਕਰੋ। CropHealth AI ਖੇਤ ਵਿੱਚ ਕਮਜ਼ੋਰ ਜਾਂ ਗਾਇਬ ਫ਼ਸਲ ਦਾ ਨਕਸ਼ਾ ਬਣਾਉਂਦਾ ਹੈ ਅਤੇ ਹਰ ਸਮੱਸਿਆ ਵਾਲੀ ਥਾਂ ਨੂੰ ਨਕਸ਼ੇ 'ਤੇ ਦਿਖਾਉਂਦਾ ਹੈ।",
-  droneTip1: "ਕੈਮਰਾ ਸਿੱਧਾ ਹੇਠਾਂ ਵੱਲ ਰੱਖੋ (gimbal −90°)", droneTip2: "20–60 ਮੀਟਰ ਉੱਚਾ ਇੱਕਸਾਰ ਰੌਸ਼ਨੀ ਵਿੱਚ ਉਡਾਓ; ਲੰਬੇ ਪਰਛਾਵਿਆਂ ਤੋਂ ਬਚੋ", droneTip3: "ਡਰੋਨ ਦਾ GPS, ਉਚਾਈ ਅਤੇ ਦਿਸ਼ਾ ਸਮੱਸਿਆ ਵਾਲੀਆਂ ਥਾਵਾਂ ਨੂੰ ਨਕਸ਼ੇ ਦੇ ਨਿਸ਼ਾਨਾਂ ਅਤੇ ਏਕੜਾਂ ਵਿੱਚ ਬਦਲਦੇ ਹਨ",
-  uploadFrames: "ਡਰੋਨ ਫੋਟੋਆਂ ਅੱਪਲੋਡ ਕਰੋ", processing: "ਖੇਤ ਦੀ ਸਿਹਤ ਦਾ ਨਕਸ਼ਾ ਬਣ ਰਿਹਾ ਹੈ",
-  fieldChecked: "ਜਾਂਚਿਆ ਖੇਤ", flaggedShare: "ਖੇਤ ਨਿਸ਼ਾਨਬੱਧ", zonesFlagged: "ਸਮੱਸਿਆ ਵਾਲੀਆਂ ਥਾਵਾਂ", zone: "ਥਾਂ", openMaps: "ਰਸਤਾ ਦਿਖਾਓ",
-  gapKind: "ਖਾਲੀ ਜਾਂ ਸੁੱਕਿਆ ਹਿੱਸਾ", stressKind: "ਕਮਜ਼ੋਰ ਫ਼ਸਲ", noMeta: "ਇਸ ਫੋਟੋ ਵਿੱਚ ਡਰੋਨ ਦੀ ਉਚਾਈ/ਦਿਸ਼ਾ ਦਾ ਡਾਟਾ ਨਹੀਂ, ਇਸ ਲਈ ਆਕਾਰ ਅਤੇ ਨਕਸ਼ੇ ਦੇ ਨਿਸ਼ਾਨ ਨਹੀਂ ਹਨ। ਡਰੋਨ ਦੀ ਅਸਲ ਫਾਈਲ ਅੱਪਲੋਡ ਕਰੋ।",
-  droneNote: "ਇਨ੍ਹਾਂ ਥਾਵਾਂ 'ਤੇ ਫ਼ਸਲ ਬਾਕੀ ਖੇਤ ਨਾਲੋਂ ਕਮਜ਼ੋਰ ਜਾਂ ਗਾਇਬ ਹੈ। ਕਾਰਨ ਬਿਮਾਰੀ, ਕੀੜੇ, ਪਾਣੀ ਜਾਂ ਖ਼ੁਰਾਕ ਹੋ ਸਕਦੇ ਹਨ। ਹਰ ਥਾਂ 'ਤੇ ਜਾਓ ਅਤੇ ਕਾਰਨ ਜਾਣਨ ਲਈ ਪੱਤਾ ਸਕੈਨ ਕਰੋ।",
-  droneRes: "ਹਰ ਪਿਕਸਲ ਲਗਭਗ {cm} ਸੈਂਟੀਮੀਟਰ ਜ਼ਮੀਨ ਦਿਖਾਉਂਦਾ ਹੈ: ਫ਼ਸਲ ਦੀ ਸਿਹਤ ਦਾ ਨਕਸ਼ਾ ਬਣਾਉਣ ਲਈ ਕਾਫ਼ੀ, ਪਰ ਹਵਾ ਤੋਂ ਬਿਮਾਰੀ ਦਾ ਨਾਮ ਦੱਸਣ ਲਈ ਨਹੀਂ।",
-  gpsFromPhoto: "ਫੋਟੋ ਤੋਂ GPS", noZones: "ਇਸ ਖੇਤ ਵਿੱਚ ਕੋਈ ਸਮੱਸਿਆ ਵਾਲੀ ਥਾਂ ਨਹੀਂ ਮਿਲੀ।",
-  appTagline: "ਸੈਂਟਰਲ ਵੈਲੀ ਦੇ ਕਿਸਾਨਾਂ ਲਈ ਫ਼ਸਲ ਦੀ ਬਿਮਾਰੀ ਦੀ ਜਾਂਚ। ਖੇਤ ਵਿੱਚ ਬਿਨਾਂ ਇੰਟਰਨੈੱਟ ਕੰਮ ਕਰਦਾ ਹੈ।",
-  navHome: "ਘਰ", navScan: "ਸਕੈਨ", navRisk: "ਖ਼ਤਰਾ", navLog: "ਖੇਤ ਰਿਕਾਰਡ", navGuide: "ਗਾਈਡ",
-  scanLeaf: "ਪੱਤਾ ਸਕੈਨ ਕਰੋ",
-  scanLeafSub: "ਇੱਕ ਪੱਤੇ ਦੀ ਫੋਟੋ ਲਓ। CropHealth AI ਤੁਹਾਡੇ ਫੋਨ 'ਤੇ ਹੀ ਜਾਂਚ ਕਰਦਾ ਹੈ। ਸਿਗਨਲ ਦੀ ਲੋੜ ਨਹੀਂ।",
-  offline: "ਔਫਲਾਈਨ: ਸਕੈਨ ਫਿਰ ਵੀ ਕੰਮ ਕਰਦਾ ਹੈ", online: "ਔਨਲਾਈਨ",
-  today: "ਅੱਜ ਬਿਮਾਰੀ ਦਾ ਖ਼ਤਰਾ", setLocation: "ਆਪਣਾ ਇਲਾਕਾ ਚੁਣੋ", useGps: "ਮੇਰੀ ਲੋਕੇਸ਼ਨ ਵਰਤੋ",
-  last7: "ਪਿਛਲੇ 7 ਦਿਨਾਂ ਦੇ ਸਕੈਨ", flagged: "ਬਿਮਾਰ ਮਿਲੇ", recent: "ਹਾਲੀਆ ਸਕੈਨ",
-  noScans: "ਅਜੇ ਕੋਈ ਸਕੈਨ ਨਹੀਂ। ਸਕੈਨ ਸਿਰਫ਼ ਇਸ ਫੋਨ 'ਤੇ ਸੰਭਾਲੇ ਜਾਂਦੇ ਹਨ।",
-  whatCrop: "ਤੁਸੀਂ ਕੀ ਸਕੈਨ ਕਰ ਰਹੇ ਹੋ?", auto: "ਪੱਕਾ ਨਹੀਂ", pepper: "ਸ਼ਿਮਲਾ ਮਿਰਚ", potato: "ਆਲੂ", tomato: "ਟਮਾਟਰ",
-  takePhoto: "ਫੋਟੋ ਲਓ", upload: "ਗੈਲਰੀ ਵਿੱਚੋਂ ਚੁਣੋ", analyzing: "ਪੱਤੇ ਦੀ ਜਾਂਚ ਹੋ ਰਹੀ ਹੈ…",
-  loadingModel: "AI ਮਾਡਲ ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ (ਸਿਰਫ਼ ਪਹਿਲੀ ਵਾਰ)…",
-  tipsTitle: "ਵਧੀਆ ਨਤੀਜੇ ਲਈ",
-  tip1: "ਇੱਕ ਪੱਤਾ, ਜੋ ਫੋਟੋ ਦਾ ਜ਼ਿਆਦਾ ਹਿੱਸਾ ਭਰੇ", tip2: "ਛਾਂ ਜਾਂ ਇੱਕਸਾਰ ਰੌਸ਼ਨੀ, ਤੇਜ਼ ਚਮਕ ਨਹੀਂ", tip3: "ਫੋਨ ਸਥਿਰ ਰੱਖੋ ਤਾਂ ਜੋ ਫੋਟੋ ਸਾਫ਼ ਆਵੇ",
-  resultHealthy: "ਸਿਹਤਮੰਦ ਲੱਗਦਾ ਹੈ", resultDiseased: "ਸੰਭਾਵਿਤ ਬਿਮਾਰੀ ਮਿਲੀ", resultUnsure: "ਪੱਕਾ ਨਹੀਂ — ਦੁਬਾਰਾ ਫੋਟੋ ਲਓ",
-  unsureBody: "CropHealth AI ਨੂੰ ਇਸ ਫੋਟੋ ਬਾਰੇ ਭਰੋਸਾ ਨਹੀਂ। ਇੱਕ ਪੱਤੇ ਦੀ ਨੇੜਿਓਂ ਸਾਫ਼ ਫੋਟੋ ਲਓ, ਜਾਂ ਆਪਣੇ ਖੇਤੀ ਸਲਾਹਕਾਰ ਨੂੰ ਪੁੱਛੋ।",
-  confidence: "ਭਰੋਸਾ", heatmap: "ਲਾਲ ਹਿੱਸੇ ਦਿਖਾਉਂਦੇ ਹਨ ਕਿ CropHealth AI ਨੇ ਬਿਮਾਰੀ ਦੇ ਨਿਸ਼ਾਨ ਕਿੱਥੇ ਦੇਖੇ।",
-  showHeatmap: "ਕਿੱਥੇ ਦਿਖਾਓ", hideHeatmap: "ਲੁਕਾਓ",
-  warnNoLeaf: "ਇਸ ਫੋਟੋ ਵਿੱਚ ਪੱਤਾ ਘੱਟ ਦਿਖਦਾ ਹੈ।", warnDark: "ਫੋਟੋ ਬਹੁਤ ਹਨੇਰੀ ਹੈ।", warnBright: "ਫੋਟੋ ਵਿੱਚ ਬਹੁਤ ਰੌਸ਼ਨੀ ਜਾਂ ਚਮਕ ਹੈ।", warnBlur: "ਫੋਟੋ ਧੁੰਦਲੀ ਲੱਗਦੀ ਹੈ।",
-  fieldName: "ਖੇਤ ਜਾਂ ਬਲਾਕ ਦਾ ਨਾਮ (ਵਿਕਲਪਿਕ)", notes: "ਨੋਟ (ਵਿਕਲਪਿਕ)", save: "ਖੇਤ ਰਿਕਾਰਡ ਵਿੱਚ ਸੰਭਾਲੋ", saved: "ਸੰਭਾਲਿਆ ਗਿਆ",
-  attachGps: "ਮੇਰੀ GPS ਲੋਕੇਸ਼ਨ ਜੋੜੋ", readAloud: "ਉੱਚੀ ਪੜ੍ਹੋ", scanAgain: "ਹੋਰ ਪੱਤਾ ਸਕੈਨ ਕਰੋ",
-  whatToDo: "ਹੁਣ ਕੀ ਕਰਨਾ ਹੈ", symptoms: "ਕੀ ਦੇਖਣਾ ਹੈ", conditions: "ਕਦੋਂ ਫੈਲਦੀ ਹੈ", prevention: "ਬਚਾਅ",
-  moreInfo: "UC IPM ਦੀ ਅਧਿਕਾਰਤ ਜਾਣਕਾਰੀ", callAdvisor: "ਕੋਈ ਵੀ ਦਵਾਈ ਵਰਤਣ ਤੋਂ ਪਹਿਲਾਂ ਆਪਣੇ UC Cooperative Extension ਸਲਾਹਕਾਰ ਜਾਂ ਲਾਇਸੰਸਸ਼ੁਦਾ PCA ਨਾਲ ਗੱਲ ਕਰੋ।",
-  disclaimer: "CropHealth AI ਇੱਕ ਜਾਂਚ ਸੰਦ ਹੈ, ਲੈਬ ਦੀ ਪੁਸ਼ਟੀ ਨਹੀਂ। ਗੰਭੀਰ ਸਮੱਸਿਆ ਦੀ ਮਾਹਿਰ ਤੋਂ ਪੁਸ਼ਟੀ ਕਰਵਾਓ।",
-  riskTitle: "7 ਦਿਨਾਂ ਦਾ ਬਿਮਾਰੀ ਖ਼ਤਰਾ", riskSub: "ਤੁਹਾਡੇ ਇਲਾਕੇ ਦੇ ਮੌਸਮ ਦੀ ਭਵਿੱਖਬਾਣੀ ਅਤੇ ਪ੍ਰਕਾਸ਼ਿਤ ਬਿਮਾਰੀ ਮਾਡਲਾਂ 'ਤੇ ਅਧਾਰਤ।",
-  lateBlight: "ਪਿਛੇਤਾ ਝੁਲਸ ਰੋਗ (ਟਮਾਟਰ ਅਤੇ ਆਲੂ)", bacterialSpot: "ਬੈਕਟੀਰੀਅਲ ਧੱਬਾ ਰੋਗ (ਮਿਰਚ ਅਤੇ ਟਮਾਟਰ)",
-  low: "ਘੱਟ", moderate: "ਦਰਮਿਆਨਾ", high: "ਵੱਧ",
-  riskWhyLB: "ਪਿਛੇਤਾ ਝੁਲਸ ਠੰਢੇ ਅਤੇ ਬਹੁਤ ਨਮੀ ਵਾਲੇ ਮੌਸਮ ਵਿੱਚ ਫੈਲਦਾ ਹੈ: 50°F ਤੋਂ ਉੱਪਰ ਰਾਤਾਂ ਅਤੇ 6+ ਘੰਟੇ 90% ਤੋਂ ਵੱਧ ਨਮੀ (Hutton ਮਾਪਦੰਡ)।",
-  riskWhyBS: "ਬੈਕਟੀਰੀਅਲ ਧੱਬਾ ਗਰਮ ਅਤੇ ਗਿੱਲੇ ਮੌਸਮ ਵਿੱਚ ਫੈਲਦਾ ਹੈ: 75–86°F ਨਾਲ ਮੀਂਹ, ਤ੍ਰੇਲ ਜਾਂ ਵੱਧ ਨਮੀ।",
-  hoursWet: "ਨਮੀ ਵਾਲੇ ਘੰਟੇ", updated: "ਅੱਪਡੇਟ", riskOffline: "ਭਵਿੱਖਬਾਣੀ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਇੱਕ ਵਾਰ ਇੰਟਰਨੈੱਟ ਨਾਲ ਜੁੜੋ। ਇਹ ਔਫਲਾਈਨ ਵਰਤੋਂ ਲਈ ਸੰਭਾਲੀ ਜਾਂਦੀ ਹੈ।",
-  logTitle: "ਖੇਤ ਰਿਕਾਰਡ", exportCsv: "CSV ਡਾਊਨਲੋਡ", printReport: "ਰਿਪੋਰਟ ਪ੍ਰਿੰਟ ਕਰੋ", map: "ਨਕਸ਼ਾ", list: "ਸੂਚੀ",
-  noGps: "GPS ਵਾਲੇ ਸਕੈਨ ਇਸ ਨਕਸ਼ੇ 'ਤੇ ਦਿਖਦੇ ਹਨ।", del: "ਮਿਟਾਓ", confirmDel: "ਕੀ ਇਹ ਸਕੈਨ ਮਿਟਾਉਣਾ ਹੈ?",
-  guideTitle: "ਬਿਮਾਰੀ ਗਾਈਡ", about: "CropHealth AI ਬਾਰੇ", language: "ਭਾਸ਼ਾ",
-  privacy: "ਨਿੱਜਤਾ: ਫੋਟੋਆਂ ਅਤੇ ਸਕੈਨ ਰਿਕਾਰਡ ਇਸ ਫੋਨ ਤੋਂ ਬਾਹਰ ਨਹੀਂ ਜਾਂਦੇ, ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ ਖ਼ੁਦ ਨਾ ਭੇਜੋ।",
-  install: "ਐਪ ਇੰਸਟਾਲ ਕਰੋ", healthy: "ਸਿਹਤਮੰਦ",
-  location: "ਇਲਾਕਾ",
-};
+;
 
-export const STRINGS: Record<Lang, Record<Key, string>> = { en, es, pa };
+export const STRINGS: Record<Lang, Record<Key, string>> = { en, es };
 
 export const LangContext = createContext<{ lang: Lang; t: (k: Key) => string }>({
   lang: "en",

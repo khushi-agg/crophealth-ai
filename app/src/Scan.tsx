@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { DISEASES, isHealthy, type Crop } from "./diseases";
-import { speak, useT } from "./i18n";
+import { speak, useT, type Lang } from "./i18n";
 import { classifyCanvas, drawCam, fileToImage, loadModel, readExifGps, regionToCanvas, thumbnail, type Prediction } from "./model";
 import { analyzeField, frameCanvas, M2_PER_ACRE, readDroneMeta, type DroneMeta } from "./aerial";
 import { addScan, getPosition } from "./store";
@@ -85,7 +85,7 @@ function LeafScan({ crop, onSaved }: { crop: CropChoice; onSaved: () => void }) 
   );
 }
 
-function LeafResult({ pred, base, gps, lang, onAgain, onSaved }: { pred: Prediction; base: HTMLCanvasElement; gps: { lat: number; lon: number } | null; lang: "en" | "es" | "pa"; onAgain: () => void; onSaved: () => void }) {
+function LeafResult({ pred, base, gps, lang, onAgain, onSaved }: { pred: Prediction; base: HTMLCanvasElement; gps: { lat: number; lon: number } | null; lang: Lang; onAgain: () => void; onSaved: () => void }) {
   const { t } = useT();
   const [showCam, setShowCam] = useState(!isHealthy(pred.classId));
   const [field, setField] = useState("");
