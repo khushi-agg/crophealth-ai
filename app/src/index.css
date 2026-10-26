@@ -115,7 +115,6 @@ button.card { width: 100%; cursor: pointer; font: inherit; }
 .result-name { margin: 2px 0 0; font-weight: 600; }
 .scan-img { width: 100%; max-width: 360px; aspect-ratio: 1; align-self: center; border-radius: 12px; background: #000; }
 .scan-img.wide { max-width: 100%; aspect-ratio: auto; }
-.legend { height: 12px; border-radius: 999px; background: linear-gradient(90deg, rgb(40,70,210), rgb(30,185,230), rgb(70,200,90), rgb(250,205,40), rgb(225,30,30)); }
 .chip.static { cursor: default; min-height: 32px; padding: 4px 10px; font-size: 0.8rem; }
 .tappable { cursor: crosshair; }
 .hotspots { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }

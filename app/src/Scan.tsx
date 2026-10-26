@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { DISEASES, isHealthy, type Crop } from "./diseases";
 import { speak, useT } from "./i18n";
 import { classifyCanvas, drawCam, fileToImage, loadModel, readExifGps, regionToCanvas, thumbnail, type Prediction } from "./model";
-import { analyzeField, drawFieldHealth, frameCanvas, M2_PER_ACRE, readDroneMeta, type DroneMeta } from "./aerial";
+import { analyzeField, drawZones, frameCanvas, M2_PER_ACRE, readDroneMeta, type DroneMeta } from "./aerial";
 import { addScan, getPosition } from "./store";
 import { DiseaseDetails } from "./Guide";
 
@@ -207,11 +207,10 @@ function DroneCard({ r, onSaved }: { r: DroneResult; onSaved: () => void }) {
   const { t } = useT();
   const ref = useRef<HTMLCanvasElement>(null);
   const [seed, setSeed] = useState<{ x: number; y: number }>(); // undefined = largest field
-  const [showMap, setShowMap] = useState(true);
   const fh = useMemo(() => analyzeField(r.frame, r.meta, seed), [r, seed]);
   const flaggedShare = fh.fieldPx ? fh.flaggedPx / fh.fieldPx : 0;
 
-  useEffect(() => { drawFieldHealth(ref.current!, r.frame, fh, showMap); }, [r, fh, showMap]);
+  useEffect(() => { drawZones(ref.current!, r.frame, fh); }, [r, fh]);
 
   function pick(e: React.MouseEvent<HTMLCanvasElement>) {
     const b = e.currentTarget.getBoundingClientRect();
@@ -242,12 +241,6 @@ function DroneCard({ r, onSaved }: { r: DroneResult; onSaved: () => void }) {
         {r.meta.model && <span className="chip static">{r.meta.model}</span>}
       </div>
       <canvas ref={ref} className="scan-img wide tappable" onClick={pick} />
-      <div className="segmented small" role="tablist">
-        <button role="tab" aria-selected={!showMap} className={showMap ? "" : "on"} onClick={() => setShowMap(false)}>📷 {t("heatPhoto")}</button>
-        <button role="tab" aria-selected={showMap} className={showMap ? "on" : ""} onClick={() => setShowMap(true)}>🌡️ {t("healthMap")}</button>
-      </div>
-      <div className="legend" aria-hidden="true" />
-      <div className="row between small"><span>{t("legendHealthy")}</span><span>{t("legendStressed")}</span></div>
       <small className="muted">👆 {t("tapField")}</small>
 
       <h2>{fh.hotspots.length ? `${fh.hotspots.length} ${t("zonesFlagged")}` : t("noZones")}</h2>
