@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+ml/results/*.pt
+.DS_Store
+node_modules/
+app/dist/
