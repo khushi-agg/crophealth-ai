@@ -3,7 +3,7 @@
 **CropHealth AI** (formerly AVIS, the Autonomous Vegetation Imaging System) is a free, offline-first phone app that helps
 California Central Valley growers and farmworkers catch crop disease early. Photograph a leaf,
 and an AI model **running entirely on the phone** checks it
-for disease in about a second. Fly a drone over the field, and CropHealth AI maps weak or dying
+for disease in about a second. Fly a drone over the field, and CropHealth AI finds weak or dying
 canopy across the whole field, measures it in acres, and pins every problem zone on a map. It needs no
 cell signal, no account, and no upload.
 
@@ -36,7 +36,7 @@ The Central Valley is one of the most productive farming regions in the world, a
 - 🔥 **Explainable results.** **Show where** highlights, in red, the part of the leaf that drove the diagnosis (the model's class-activation map).
 - ❔ **Honest uncertainty.** Calibrated confidence (temperature scaling). CropHealth AI says "not sure" below 60% confidence or when the photo has too little leaf in it.
 - 📸 **Photo quality checks.** Warns when a photo is too dark, too bright, blurry, or has too little leaf.
-- 🛸 **Drone field-health map.** Upload straight-down drone photos (one or a whole flight). CropHealth AI finds the crop field (or the one you tap), then maps each spot's vegetation index (VARI), canopy thinning and bare gaps against that field's own typical values, shading it blue (healthy) to red (weak). Tractor tramlines and paths are recognized by shape and ignored. It reads the drone's own flight data (altitude, gimbal angle, heading, camera, GPS) to report ground resolution, field area in m²/acres and the size of every problem zone, and GPS-locates each zone with a **Navigate** link and pins on the field-log map. From the air it maps *where* the crop is struggling; the leaf scan then identifies *what* it is.
+- 🛸 **Drone field-health map.** Upload straight-down drone photos (one or a whole flight). CropHealth AI finds the crop field (or the one you tap), then checks each spot's vegetation index (VARI), canopy thinning and bare gaps against that field's own typical values, and outlines every problem zone in red on the photo. Tractor tramlines and paths are recognized by shape and ignored. It reads the drone's own flight data (altitude, gimbal angle, heading, camera, GPS) to report ground resolution, field area in m²/acres and the size of every problem zone, and GPS-locates each zone with a **Navigate** link and pins on the field-log map. From the air it maps *where* the crop is struggling; the leaf scan then identifies *what* it is.
 - 🌦️ **Disease risk forecast.** Open-Meteo hourly weather plus the **Hutton criteria** for late blight and a warm-and-wet hour model for bacterial spot, for 14 Valley towns or your GPS location.
 - 📘 **Action guide.** Symptoms, spread conditions, urgent steps and prevention, based on UC IPM guidance, with links to the official pages.
 - 🗺️ **Private field log.** Scans are stored on the phone (IndexedDB) and shown as a list or map, with CSV export and a printable report.
@@ -45,9 +45,9 @@ The Central Valley is one of the most productive farming regions in the world, a
 
 ## Drone field map in action
 
-![Drone field-health map of a damaged field](docs/screenshots/drone-damaged-field.png)
+![Drone field map of a damaged field](docs/screenshots/drone-damaged-field.png)
 
-A real DJI drone photo from 73 m. The app read the drone's flight data (10.6 cm per pixel, GPS), found the crop field, and shaded the thinned, damaged area red. It measured 2 problem zones (≈ 311 m² and ≈ 97 m²) and GPS-located each one. A healthy field for comparison: [docs/screenshots/drone-healthy-field.png](docs/screenshots/drone-healthy-field.png).
+A real DJI drone photo from 73 m. The app read the drone's flight data (10.6 cm per pixel, GPS), found the crop field (white outline), and outlined the thinned, damaged area in red. It measured 2 problem zones (≈ 311 m² and ≈ 97 m²) and GPS-located each one. A healthy field for comparison: [docs/screenshots/drone-healthy-field.png](docs/screenshots/drone-healthy-field.png).
 
 ## What it detects
 

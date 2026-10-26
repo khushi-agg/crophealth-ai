@@ -59,10 +59,10 @@ Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. One presenter reads every line. Spoke
 
 | | |
 |---|---|
-| **Shot** | Scan tab → **Drone field map** → upload `demo/drone/drone-damaged-field-73m.jpg`. Show the chips (73 m · 10.6 cm/px · GPS), toggle **Photo ↔ Health map**, scroll to the zone list and tap **Navigate** on zone 1. Then **Save** → Field log → **Map** with the zone pins. |
-| **On-screen text** | `Real drone photo · 73 m` · `Red = weak or thinning crop` · `Drone photo: D. Rabich, CC BY-SA 4.0` |
+| **Shot** | Scan tab → **Drone field map** → upload `demo/drone/drone-damaged-field-73m.jpg`. Show the chips (73 m · 10.6 cm/px · GPS) and the red outlines on the photo, scroll to the zone list and tap **Navigate** on zone 1. Then **Save** → Field log → **Map** with the zone pins. |
+| **On-screen text** | `Real drone photo · 73 m` · `Red outline = weak or thinning crop` · `Drone photo: D. Rabich, CC BY-SA 4.0` |
 
-> For whole fields, I upload a real drone photo. The app reads the drone's own flight data: height, camera angle and GPS. It finds the crop field, and everywhere the crop is weaker or thinner than the rest of that field turns red. It even ignores the tractor tracks. Then it measures each problem zone and pins it on the map, so a farmer can walk straight to it and scan a leaf to find out what's wrong.
+> For whole fields, I upload a real drone photo. The app reads the drone's own flight data: height, camera angle and GPS. It finds the crop field and outlines in red everywhere the crop is weaker or thinner than the rest of that field. It even ignores the tractor tracks. Then it measures each problem zone and pins it on the map, so a farmer can walk straight to it and scan a leaf to find out what's wrong.
 
 ## Scene 7: Forecast and records (2:12–2:27)
 
