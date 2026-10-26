@@ -27,7 +27,7 @@ The full script is in [VIDEO_SCRIPT.md](VIDEO_SCRIPT.md). It has two parts:
 | Part | Time | What's on screen |
 |---|---|---|
 | **1. On camera** | 0:00–0:55 | You, talking to the camera: living in the Central Valley, why farming matters here, and the problems (fast-spreading disease, weak signal, language barriers) that led you to build CropHealth AI. |
-| **2. Faceless demo** | 0:55–2:50 | Phone screen recording with your voice-over: airplane mode → leaf scan + Show where → "Not sure" → Spanish + read-aloud → drone field analysis → risk forecast + field log → closing and end card. |
+| **2. Faceless demo** | 0:55–2:50 | Phone screen recording with your voice-over: airplane mode → leaf scan + next steps → "Not sure" → Spanish + read-aloud → drone field analysis → risk forecast + field log → closing and end card. |
 
 Images to save to your phone before recording: `demo/web_samples/phone-1-tomato-late-blight.jpg`, a photo that isn't a plant, and `demo/drone/drone-damaged-field-73m.jpg`. Credit lines for the YouTube description are in the script.
 
@@ -36,7 +36,7 @@ Images to save to your phone before recording: `demo/web_samples/phone-1-tomato-
 | Judging area | Evidence |
 |---|---|
 | Quality of the idea / community impact | Built for a real local problem: Central Valley crops, weak rural signal, English and Spanish with read-aloud, UC IPM and UCCE workflow |
-| Implementation | On-device AI, offline PWA, explainable "show where" highlights, calibrated "not sure" answers, a drone field-health map with real acreage and GPS pins from drone flight data, weather risk models, English and Spanish, CSV and print export |
+| Implementation | On-device AI, offline PWA, calibrated "not sure" answers, a drone field-health map with real acreage and GPS pins from drone flight data, weather risk models, English and Spanish, CSV and print export |
 | Skills demonstrated | Full ML pipeline (training, held-out testing, temperature calibration, ONNX export) plus a TypeScript/React front end |
 | Honesty and rigor | README lists the known limitations and the fixes made to the original prototype |
 

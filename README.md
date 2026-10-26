@@ -33,7 +33,6 @@ The Central Valley is one of the most productive farming regions in the world, a
 ## Features
 
 - 📷 **Leaf scan.** Take a photo or upload one. On-device MobileNetV2 inference via ONNX Runtime Web (WebAssembly).
-- 🔥 **Explainable results.** **Show where** highlights, in red, the part of the leaf that drove the diagnosis (the model's class-activation map).
 - ❔ **Honest uncertainty.** Calibrated confidence (temperature scaling). CropHealth AI says "not sure" below 60% confidence or when the photo has too little leaf in it.
 - 📸 **Photo quality checks.** Warns when a photo is too dark, too bright, blurry, or has too little leaf.
 - 🛸 **Drone field-health map.** Upload straight-down drone photos (one or a whole flight). CropHealth AI finds the main crop field, then checks each spot's vegetation index (VARI), canopy thinning and bare gaps against that field's own typical values, and lists every problem zone it finds. Tractor tramlines and paths are recognized by shape and ignored. It reads the drone's own flight data (altitude, gimbal angle, heading, camera, GPS) to report ground resolution, field area in m²/acres and the size of every problem zone, and GPS-locates each zone with a **Navigate** link and pins on the field-log map. From the air it maps *where* the crop is struggling; the leaf scan then identifies *what* it is.
@@ -110,7 +109,7 @@ flowchart LR
     K2 --> K
     G --> I[ONNX Runtime Web, WASM]
     D --> I
-    I --> J[Diagnosis + show-where highlight + 'not sure']
+    I --> J[Diagnosis + confidence + 'not sure']
     J --> K[(IndexedDB field log + GPS)]
   end
   W[Open-Meteo forecast] --> R[Hutton late-blight + bacterial-spot risk]
@@ -154,7 +153,7 @@ Training writes `app/public/model/avis.onnx`, `model-info.json`, and the metrics
 
 ```
 app/        React + TypeScript PWA (the farmer-facing app)
-  src/model.ts      on-device leaf inference, AI-attention highlight, quality checks, EXIF GPS
+  src/model.ts      on-device leaf inference, photo quality checks, EXIF GPS
   src/aerial.ts     drone field-health map: VARI, canopy cover, field finding, drone metadata, GPS pins
   src/risk.ts       weather-driven disease risk models
   src/diseases.ts   disease guidance in EN / ES

@@ -42,11 +42,11 @@ Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. Lines in quote blocks are spoken. Wor
 
 ### Demo 2: Leaf scan (1:05–1:40)
 
-**Show:** **Scan** → tap **🍅 Tomato** → **Choose from gallery** → pick a tomato late blight leaf (`demo/web_samples/phone-1-tomato-late-blight.jpg`). The result appears: **"Possible disease found · Late blight"** with a confidence of about 99%. Tap **Show where**, then scroll slowly through **What to do now**.
+**Show:** **Scan** → tap **🍅 Tomato** → **Choose from gallery** → pick a tomato late blight leaf (`demo/web_samples/phone-1-tomato-late-blight.jpg`). The result appears: **"Possible disease found · Late blight"** with a confidence of about 99%. Then scroll slowly through **What to do now**.
 
 **On-screen text:** `AI runs on the phone · about 1 second`
 
-> I pick tomato and choose a photo of a leaf. The AI runs right on the phone, and in about a second it says this is likely late blight. "Show where" highlights the part of the leaf the AI focused on, so a farmer can see why it made that call.
+> I pick tomato and choose a photo of a leaf. The AI runs right on the phone, and in about a second it says this is likely late blight. It also shows how confident it is, so a farmer knows how much to trust the result.
 >
 > Then it gives clear next steps, based on University of California pest-management guidance: what to look for, how it spreads, and to check with a farm advisor before spraying anything.
 
