@@ -41,6 +41,14 @@ The Central Valley is one of the most productive farming regions in the world, a
 - 🌐 **Three languages** and 🔊 **read-aloud** (Web Speech API).
 - 📲 **Installable PWA.** Add it to the home screen on iPhone or Android, with no app store needed.
 
+## Heat map in action
+
+| Bacterial spot (pepper) | Late blight (tomato) |
+|---|---|
+| ![Pepper bacterial spot heat map](docs/screenshots/heatmap-pepper-bacterial-spot.png) | ![Tomato late blight heat map](docs/screenshots/heatmap-tomato-late-blight-2.png) |
+
+Rendered by the app itself from a held-out PlantVillage leaf and a Wikimedia Commons photo (see [demo/web_samples/CREDITS.md](demo/web_samples/CREDITS.md)). More in [docs/screenshots/](docs/screenshots/).
+
 ## What it detects
 
 | Crop | Disease | Pathogen |
