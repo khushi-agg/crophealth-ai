@@ -20,7 +20,7 @@ Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. Lines in quote blocks are spoken. Wor
 >
 > Where I live, farming isn't just something you read about. It's the fields on the drive to school, the orchards along the highway, and the jobs that so many families here depend on. The Central Valley is one of the most productive farming regions in the world, and a lot of the food on America's tables starts right here.
 >
-> But growing it is hard. A disease like late blight can spread through a tomato field in a week or two of cool, foggy weather, and by the time it's obvious, a big part of the crop can be gone. Out in the fields, cell signal is often weak. Many of the people who work these fields speak Spanish or Punjabi, and most plant apps only speak English and need the internet.
+> But growing it is hard. A disease like late blight can spread through a tomato field in a week or two of cool, foggy weather, and by the time it's obvious, a big part of the crop can be gone. Out in the fields, cell signal is often weak, and most plant apps need the internet and only work in English.
 >
 > So I built **CropHealth AI**: a free app that checks crops for disease right on the phone, in the field, with no signal needed. Let me show you how it works.
 
@@ -58,13 +58,13 @@ Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. Lines in quote blocks are spoken. Wor
 
 > If the photo isn't clear, or the AI isn't confident, it says "not sure" instead of guessing. A wrong answer could cost a farmer a crop or money spent on sprays they didn't need.
 
-### Demo 4: Spanish, Punjabi and read-aloud (1:52–2:05)
+### Demo 4: Spanish and read-aloud (1:52–2:05)
 
-**Show:** go back to the late blight result. Open the language menu → **Español** (the whole screen switches) → tap **🔊 Leer en voz alta** and let about 3 seconds of audio play. Optionally switch to **ਪੰਜਾਬੀ** for a second.
+**Show:** go back to the late blight result. Open the language menu → **Español** (the whole screen switches) → tap **🔊 Leer en voz alta** and let about 3 seconds of audio play.
 
-**On-screen text:** `English · Español · ਪੰਜਾਬੀ`
+**On-screen text:** `English · Español · Read aloud`
 
-> The entire app works in English, Spanish and Punjabi, and it can read results out loud. *(Let the Spanish audio play.)*
+> The whole app works in English and Spanish, and it can read results out loud, so it's easier to use for everyone. *(Let the Spanish audio play.)*
 
 ### Demo 5: Drone field analysis (2:05–2:30)
 

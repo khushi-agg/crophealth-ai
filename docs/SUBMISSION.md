@@ -16,7 +16,7 @@
 
 ## Short description (paste into the form)
 
-> CropHealth AI is a free, offline-first phone app that helps California Central Valley growers and farmworkers catch crop disease early. A farmer photographs a leaf and an AI model running entirely on the phone checks it for late blight (tomato and potato) and bacterial spot (bell pepper) in about a second, with no cell signal needed. It shows where on the leaf it saw disease, says "not sure" instead of guessing, and gives next steps based on UC IPM guidance in English, Spanish and Punjabi, with read-aloud. A drone field map finds weak or thinning canopy in straight-down drone photos, lists each problem zone, measures the field and each zone in acres, and GPS-pins every zone so the grower can walk straight to it. A 7-day risk forecast warns when the weather favors disease. Scans stay private on the phone and can be exported as a CSV or a printed report for a UC Cooperative Extension farm advisor or PCA.
+> CropHealth AI is a free, offline-first phone app that helps California Central Valley growers and farmworkers catch crop disease early. A farmer photographs a leaf and an AI model running entirely on the phone checks it for late blight (tomato and potato) and bacterial spot (bell pepper) in about a second, with no cell signal needed. It shows where on the leaf it saw disease, says "not sure" instead of guessing, and gives next steps based on UC IPM guidance in English and Spanish, with read-aloud. A drone field map finds weak or thinning canopy in straight-down drone photos, lists each problem zone, measures the field and each zone in acres, and GPS-pins every zone so the grower can walk straight to it. A 7-day risk forecast warns when the weather favors disease. Scans stay private on the phone and can be exported as a CSV or a printed report for a UC Cooperative Extension farm advisor or PCA.
 
 **Languages and tools:** TypeScript, React, Vite, PWA/service workers, ONNX Runtime Web (WebAssembly), Python, PyTorch, scikit-learn, Leaflet/OpenStreetMap, Open-Meteo API.
 
@@ -27,7 +27,7 @@ The full script is in [VIDEO_SCRIPT.md](VIDEO_SCRIPT.md). It has two parts:
 | Part | Time | What's on screen |
 |---|---|---|
 | **1. On camera** | 0:00–0:55 | You, talking to the camera: living in the Central Valley, why farming matters here, and the problems (fast-spreading disease, weak signal, language barriers) that led you to build CropHealth AI. |
-| **2. Faceless demo** | 0:55–2:50 | Phone screen recording with your voice-over: airplane mode → leaf scan + Show where → "Not sure" → Spanish/Punjabi + read-aloud → drone field analysis → risk forecast + field log → closing and end card. |
+| **2. Faceless demo** | 0:55–2:50 | Phone screen recording with your voice-over: airplane mode → leaf scan + Show where → "Not sure" → Spanish + read-aloud → drone field analysis → risk forecast + field log → closing and end card. |
 
 Images to save to your phone before recording: `demo/web_samples/phone-1-tomato-late-blight.jpg`, a photo that isn't a plant, and `demo/drone/drone-damaged-field-73m.jpg`. Credit lines for the YouTube description are in the script.
 
@@ -35,8 +35,8 @@ Images to save to your phone before recording: `demo/web_samples/phone-1-tomato-
 
 | Judging area | Evidence |
 |---|---|
-| Quality of the idea / community impact | Built for a real local problem: Central Valley crops, weak rural signal, Spanish and Punjabi speakers, UC IPM and UCCE workflow |
-| Implementation | On-device AI, offline PWA, explainable "show where" highlights, calibrated "not sure" answers, a drone field-health map with real acreage and GPS pins from drone flight data, weather risk models, three languages, CSV and print export |
+| Quality of the idea / community impact | Built for a real local problem: Central Valley crops, weak rural signal, English and Spanish with read-aloud, UC IPM and UCCE workflow |
+| Implementation | On-device AI, offline PWA, explainable "show where" highlights, calibrated "not sure" answers, a drone field-health map with real acreage and GPS pins from drone flight data, weather risk models, English and Spanish, CSV and print export |
 | Skills demonstrated | Full ML pipeline (training, held-out testing, temperature calibration, ONNX export) plus a TypeScript/React front end |
 | Honesty and rigor | README lists the known limitations and the fixes made to the original prototype |
 

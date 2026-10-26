@@ -25,7 +25,7 @@ The Central Valley is one of the most productive farming regions in the world, a
 | Problem in the Valley | What CropHealth AI does |
 |---|---|
 | Weak or no cell signal out in the fields | The model and the whole app are cached on the phone, so scans work in airplane mode |
-| Many growers and farmworkers speak Spanish or Punjabi | The full interface and disease guidance are in **English, Spanish and Punjabi**, with read-aloud |
+| Most plant apps only work in English | The full interface and disease guidance are in **English and Spanish**, with read-aloud |
 | Late blight can destroy a tomato or potato field within weeks of cool, foggy weather | A **7-day risk forecast** warns *before* conditions favor disease |
 | A wrong AI answer costs real money | CropHealth AI shows **where** it saw disease, says **"not sure"** instead of guessing, and sends serious cases to a UC Cooperative Extension farm advisor or licensed PCA |
 | Big fields can't be walked leaf by leaf | **Drone field map** finds weak or thinning canopy across a whole field and GPS-pins each problem zone |
@@ -40,7 +40,7 @@ The Central Valley is one of the most productive farming regions in the world, a
 - 🌦️ **Disease risk forecast.** Open-Meteo hourly weather plus the **Hutton criteria** for late blight and a warm-and-wet hour model for bacterial spot, for 14 Valley towns or your GPS location.
 - 📘 **Action guide.** Symptoms, spread conditions, urgent steps and prevention, based on UC IPM guidance, with links to the official pages.
 - 🗺️ **Private field log.** Scans are stored on the phone (IndexedDB) and shown as a list or map, with CSV export and a printable report.
-- 🌐 **Three languages** and 🔊 **read-aloud** (Web Speech API).
+- 🌐 **English and Spanish** and 🔊 **read-aloud** (Web Speech API).
 - 📲 **Installable PWA.** Add it to the home screen on iPhone or Android, with no app store needed.
 
 ## Drone field map in action
@@ -147,8 +147,8 @@ app/        React + TypeScript PWA (the farmer-facing app)
   src/model.ts      on-device leaf inference, AI-attention highlight, quality checks, EXIF GPS
   src/aerial.ts     drone field-health map: VARI, canopy cover, field finding, drone metadata, GPS pins
   src/risk.ts       weather-driven disease risk models
-  src/diseases.ts   disease guidance in EN / ES / PA
-  src/i18n.ts       interface text in EN / ES / PA
+  src/diseases.ts   disease guidance in EN / ES
+  src/i18n.ts       interface text in EN / ES
 ml/         training, evaluation and ONNX export (PyTorch)
 dataset/    PlantVillage train/val images
 demo/       demo images for presentations
@@ -162,7 +162,7 @@ legacy/     original Keras + OpenCV prototype
 2. Trained on lab images. Real-field leaf accuracy **has not been validated yet**.
 3. The drone map uses an ordinary RGB camera. It finds *where* canopy is weak or thinning, but it can't tell disease from drought, pests or nutrient problems from the air; a leaf scan or an expert does that. It also hasn't been checked against ground-truth scouting yet, and works best with straight-down photos (gimbal −90°) from 20–80 m.
 4. The risk forecast uses published rules of thumb, not a calibrated local model. It's a prompt to scout, not a spray decision.
-5. Spanish and Punjabi text should be reviewed by native-speaking growers.
+5. The Spanish text should be reviewed by native speakers.
 6. CropHealth AI is a screening tool, not a diagnosis. Treatment decisions belong with a UCCE farm advisor or licensed PCA.
 
 ## Roadmap
