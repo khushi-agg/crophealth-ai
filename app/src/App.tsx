@@ -229,8 +229,14 @@ function ScanMap({ scans }: { scans: ScanRecord[] }) {
       L.circleMarker([s.lat!, s.lon!], { radius: 10, color: "#fff", weight: 2, fillOpacity: 0.9, fillColor: s.unsure ? "#9ca3af" : bad ? "#dc2626" : "#16a34a" })
         .bindPopup(`<b>${s.mode === "drone" ? `${s.flaggedTiles} ${t("zonesFlagged")}` : DISEASES[s.classId].info[lang].name}</b><br>${new Date(s.date).toLocaleDateString()}${s.field ? "<br>" + s.field.replace(/</g, "&lt;") : ""}`)
         .addTo(group);
+      // Drone flights also pin each problem zone so a grower can walk straight to it.
+      s.hotspots?.forEach((h, k) => {
+        L.circleMarker([h.lat, h.lon], { radius: 7, color: "#c62828", weight: 3, fillColor: "#fff", fillOpacity: 1 })
+          .bindPopup(`<b>${t("zone")} ${k + 1}: ${h.kind === "gap" ? t("gapKind") : t("stressKind")}</b>${h.areaM2 ? `<br>≈ ${Math.round(h.areaM2)} m²` : ""}<br><a href="https://www.google.com/maps/dir/?api=1&destination=${h.lat.toFixed(6)},${h.lon.toFixed(6)}" target="_blank" rel="noreferrer">${t("openMaps")}</a>`)
+          .addTo(group);
+      });
     }
-    if (pts.length) map.fitBounds(group.getBounds().pad(0.3), { maxZoom: 17 });
+    if (pts.length) map.fitBounds(group.getBounds().pad(0.3), { maxZoom: 19 });
     return () => { map.remove(); };
   }, [pts, t, lang]);
   return (

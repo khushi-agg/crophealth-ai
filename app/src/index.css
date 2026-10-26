@@ -116,6 +116,13 @@ button.card { width: 100%; cursor: pointer; font: inherit; }
 .scan-img { width: 100%; max-width: 360px; aspect-ratio: 1; align-self: center; border-radius: 12px; background: #000; }
 .scan-img.wide { max-width: 100%; aspect-ratio: auto; }
 .legend { height: 12px; border-radius: 999px; background: linear-gradient(90deg, rgb(40,70,210), rgb(30,185,230), rgb(70,200,90), rgb(250,205,40), rgb(225,30,30)); }
+.chip.static { cursor: default; min-height: 32px; padding: 4px 10px; font-size: 0.8rem; }
+.tappable { cursor: crosshair; }
+.hotspots { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.hotspots li { display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 12px; padding: 8px 10px; }
+.hotspots .grow { display: flex; flex-direction: column; }
+.hs-id { flex: none; width: 30px; height: 30px; border-radius: 50%; border: 3px solid var(--red); color: var(--red); font-weight: 800; display: grid; place-items: center; }
+.small-btn { min-height: 38px; padding: 6px 10px; text-decoration: none; font-size: 0.85rem; white-space: nowrap; }
 .severity { margin: 0; font-size: 1.15rem; font-weight: 800; color: var(--red); }
 .meter { height: 12px; border-radius: 999px; background: rgba(0, 0, 0, 0.1); overflow: hidden; }
 .meter div { height: 100%; background: currentColor; }

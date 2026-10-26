@@ -14,8 +14,9 @@ export interface ScanRecord {
   lat?: number;
   lon?: number;
   thumb: string;
-  flaggedTiles?: number;
+  flaggedTiles?: number; // drone: number of problem zones
   plantTiles?: number;
+  hotspots?: { lat: number; lon: number; areaM2?: number; kind: "stress" | "gap" }[];
 }
 
 const KEY = "avis.scans";

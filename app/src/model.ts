@@ -254,36 +254,6 @@ export function drawHeatmap(target: HTMLCanvasElement, display: HTMLCanvasElemen
   ctx.putImageData(img, 0, 0);
 }
 
-export interface Tile { x: number; y: number; w: number; h: number; plant: number; diseaseProb: number | null; classId?: ClassId }
-
-/**
- * Drone / wide-photo mode: split the frame into roughly square tiles, skip tiles that
- * are mostly soil or sky, and score the rest. Works best from low altitude (about 2–5 m)
- * where individual leaves are visible.
- */
-export async function scanTiles(img: ImageBitmap, crop: Crop | "auto", rows: number, onProgress?: (done: number, total: number) => void) {
-  const W = img.width, H = img.height;
-  const tile = Math.min(W, H) / rows;
-  const cols = Math.max(1, Math.round(W / tile)), rws = Math.max(1, Math.round(H / tile));
-  const tw = W / cols, th = H / rws;
-  const tiles: Tile[] = [];
-  for (let r = 0; r < rws; r++) for (let c = 0; c < cols; c++) tiles.push({ x: c * tw, y: r * th, w: tw, h: th, plant: 0, diseaseProb: null });
-  for (let i = 0; i < tiles.length; i++) {
-    const t = tiles[i];
-    const canvas = regionToCanvas(img, t);
-    const q = checkQuality(canvas.getContext("2d")!.getImageData(0, 0, SIZE, SIZE));
-    t.plant = q.plantFraction;
-    if (t.plant >= 0.3) {
-      const p = await classifyCanvas(canvas, crop);
-      t.diseaseProb = p.diseaseProb;
-      t.classId = p.classId;
-    }
-    onProgress?.(i + 1, tiles.length);
-    await new Promise((r) => setTimeout(r, 0));
-  }
-  return { tiles, cols, rows: rws };
-}
-
 export function thumbnail(src: CanvasImageSource, w: number, h: number, max = 320) {
   const k = Math.min(1, max / Math.max(w, h));
   const c = document.createElement("canvas");
