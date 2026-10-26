@@ -1,342 +1,168 @@
-# AVIS — Autonomous Vegetation Imaging System
+# 🌱 AVIS: Crop disease checks for Central Valley farmers
 
-**Real-time crop disease detection from RGB imagery using a MobileNetV2 transfer-learning classifier.**
+**AVIS (Autonomous Vegetation Imaging System)** is a free, offline-first phone app that helps
+California Central Valley growers and farmworkers catch crop disease early. Photograph a leaf,
+or upload a low-altitude drone photo, and an AI model **running entirely on the phone** checks it
+for disease in about a second. It needs no cell signal, no account, and no upload.
 
-![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-FF6F00?logo=tensorflow&logoColor=white)
-![OpenCV](https://img.shields.io/badge/OpenCV-4.x-5C3EE8?logo=opencv&logoColor=white)
-![Task](https://img.shields.io/badge/task-6--class%20image%20classification-blue)
-![Status](https://img.shields.io/badge/status-research%20prototype-yellow)
+> Built for the 2026 Congressional App Challenge. See [docs/SUBMISSION.md](docs/SUBMISSION.md) for the submission kit and demo script.
 
----
-
-## Abstract
-
-Early detection of plant disease is critical to sustainable agriculture, but manual crop
-inspection is slow, inconsistent between inspectors, and largely inaccessible to small-scale
-farmers. AVIS investigates whether commodity RGB imaging — a webcam today, a drone-mounted
-camera in deployment — combined with a lightweight convolutional neural network can identify
-diseased crops automatically and in real time.
-
-A MobileNetV2 backbone pre-trained on ImageNet is used as a frozen feature extractor and
-fine-tuned with a small classification head on **6,905 labelled leaf images** drawn from the
-public [PlantVillage](https://github.com/spMohanty/PlantVillage-Dataset) dataset, spanning
-**three crops** (bell pepper, potato, tomato) in **healthy** and **diseased** states. The
-trained classifier is paired with a real-time OpenCV pipeline that segments vegetation from
-the camera feed by HSV colour thresholding, crops the largest plant region, and classifies it
-frame-by-frame with an on-screen confidence and FPS overlay.
-
-The result is a fully offline, single-file inference loop small enough to run on
-resource-constrained hardware — the intended path toward low-cost, automated aerial crop
-monitoring.
+![TypeScript](https://img.shields.io/badge/TypeScript-React-3178C6?logo=typescript&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-MobileNetV2-EE4C2C?logo=pytorch&logoColor=white)
+![ONNX](https://img.shields.io/badge/ONNX_Runtime-Web%20%2F%20WASM-005CED?logo=onnx&logoColor=white)
+![PWA](https://img.shields.io/badge/PWA-works%20offline-5A0FC8?logo=pwa&logoColor=white)
 
 ---
 
-## Table of contents
+## Why AVIS
 
-- [Method](#method)
-  - [Pipeline](#pipeline)
-  - [Dataset](#dataset)
-  - [Model architecture](#model-architecture)
-  - [Training configuration](#training-configuration)
-  - [Real-time inference](#real-time-inference)
-- [Results](#results)
-- [Repository structure](#repository-structure)
-- [Getting started](#getting-started)
-- [Reproducibility](#reproducibility)
-- [Limitations and known issues](#limitations-and-known-issues)
-- [Roadmap](#roadmap)
-- [Citation](#citation)
-- [Acknowledgements](#acknowledgements)
-- [License](#license)
+The Central Valley is one of the most productive farming regions in the world, and it has three problems a generic plant app doesn't solve:
 
----
-
-## Method
-
-### Pipeline
-
-```mermaid
-flowchart LR
-    A[PlantVillage<br/>leaf images] --> B[Resize 224x224<br/>Rescale 1/255<br/>Augment]
-    B --> C[MobileNetV2<br/>frozen ImageNet backbone]
-    C --> D[GAP -> Dense 128 -> Softmax 6]
-    D --> E[(plant_model.h5)]
-
-    F[Camera frame] --> G[HSV green mask<br/>+ morphology]
-    G --> H[Largest contour<br/>area > 2000 px]
-    H --> I[Crop -> 224x224 -> /255]
-    E --> J
-    I --> J[Classify]
-    J --> K[Bounding box + label<br/>+ confidence + FPS]
-```
-
-### Dataset
-
-Images come from PlantVillage and are grouped into six `crop-condition` classes. Each crop's
-"diseased" class corresponds to a **single specific pathology**, identifiable from the original
-PlantVillage filename prefixes retained in this repository:
-
-| Class | Pathology | Train | Val | Total |
-|---|---|---:|---:|---:|
-| `bell-pepper-diseased` | Bacterial spot (*Xanthomonas campestris*) | 696 | 301 | 997 |
-| `bell-pepper-healthy` | — | 1,008 | 470 | 1,478 |
-| `potato-diseased` | Late blight (*Phytophthora infestans*) | 594 | 406 | 1,000 |
-| `potato-healthy` | — | 102 | 50 | 152 |
-| `tomato-diseased` | Late blight (*Phytophthora infestans*) | 1,182 | 505 | 1,687 |
-| `tomato-healthy` | — | 1,140 | 451 | 1,591 |
-| **Total** | | **4,722** | **2,183** | **6,905** |
-
-Class order is alphabetical, matching the index order Keras assigns via
-`flow_from_directory` and the hardcoded `CLASSES` list in [`detect.py`](detect.py).
-
-> [!IMPORTANT]
-> The dataset is **strongly imbalanced** (`potato-healthy` has 152 images; `tomato-diseased`
-> has 1,687 — an 11× gap). No class weighting or resampling is applied, so aggregate accuracy
-> overstates performance on the minority classes. Read the per-class confusion matrix, not the
-> headline number.
-
-**Preprocessing and augmentation** (training split only):
-
-| Step | Setting |
+| Problem in the Valley | What AVIS does |
 |---|---|
-| Resize | 224 × 224 |
-| Rescale | `1/255` |
-| Rotation | ± 20° |
-| Zoom | 0.2 |
-| Horizontal flip | Yes |
+| Weak or no cell signal out in the fields | The model and the whole app are cached on the phone, so scans work in airplane mode |
+| Many growers and farmworkers speak Spanish or Punjabi | The full interface and disease guidance are in **English, Spanish and Punjabi**, with read-aloud |
+| Late blight can destroy a tomato or potato field within weeks of cool, foggy weather | A **7-day risk forecast** warns *before* conditions favor disease |
+| A wrong AI answer costs real money | AVIS shows **where** it saw disease, says **"not sure"** instead of guessing, and sends serious cases to a UC Cooperative Extension farm advisor or licensed PCA |
+| Big fields can't be walked leaf by leaf | **Drone mode** splits aerial photos into zones and pins hot spots on a map using the photo's GPS |
 
-The validation split is rescaled only — no augmentation — and loaded with `shuffle=False` so
-that predicted and true label orderings align for the confusion matrix.
+## Features
 
-### Model architecture
+- 📷 **Leaf scan.** Take a photo or upload one. On-device MobileNetV2 inference via ONNX Runtime Web (WebAssembly).
+- 🔥 **Explainable results.** A class-activation heat map shows which part of the leaf drove the diagnosis.
+- ❔ **Honest uncertainty.** Calibrated confidence (temperature scaling). AVIS says "not sure" below 60% confidence or when the photo has too little leaf in it.
+- 📸 **Photo quality checks.** Warns when a photo is too dark, too bright, blurry, or has too little leaf.
+- 🛸 **Drone / wide-photo mode.** Tiles each frame, skips soil and sky, scores plant zones, colors a scouting grid, and reads EXIF GPS. Accepts batch uploads.
+- 🌦️ **Disease risk forecast.** Open-Meteo hourly weather plus the **Hutton criteria** for late blight and a warm-and-wet hour model for bacterial spot, for 14 Valley towns or your GPS location.
+- 📘 **Action guide.** Symptoms, spread conditions, urgent steps and prevention, based on UC IPM guidance, with links to the official pages.
+- 🗺️ **Private field log.** Scans are stored on the phone (IndexedDB) and shown as a list or map, with CSV export and a printable report.
+- 🌐 **Three languages** and 🔊 **read-aloud** (Web Speech API).
+- 📲 **Installable PWA.** Add it to the home screen on iPhone or Android, with no app store needed.
 
-```
-Input (224, 224, 3)
-  └─ MobileNetV2 (include_top=False, weights='imagenet', trainable=False)   ~2.26 M params, frozen
-       └─ GlobalAveragePooling2D                                            → 1280-d feature vector
-            └─ Dense(128, activation='relu')                                163,968 params
-                 └─ Dense(6, activation='softmax')                          774 params
-```
+## What it detects
 
-Only the head is trained: **≈ 164.7 K trainable parameters** out of ≈ 2.42 M total. Freezing
-the backbone is what makes the model trainable on a few thousand images without overfitting
-outright, and keeps the exported model small enough (~11 MB) for edge deployment.
+| Crop | Disease | Pathogen |
+|---|---|---|
+| Tomato | Late blight | *Phytophthora infestans* |
+| Potato | Late blight | *Phytophthora infestans* |
+| Bell pepper | Bacterial spot | *Xanthomonas* spp. |
 
-### Training configuration
+Each crop also has a "healthy" class (six classes total).
 
-| Hyperparameter | Value |
-|---|---|
-| Optimizer | Adam (Keras defaults, lr = 1e-3) |
-| Loss | Categorical cross-entropy |
-| Metric | Accuracy |
-| Batch size | 16 |
-| Epochs | 10 |
-| Backbone | Frozen throughout (no fine-tuning stage) |
-| Output | `plant_model.h5` |
+## Model results
 
-### Real-time inference
-
-[`detect.py`](detect.py) runs a classical CV front-end ahead of the network rather than a
-learned object detector — deliberately, to keep the loop cheap enough for onboard hardware:
-
-1. Capture a frame (`cv2.VideoCapture(0)`) and mirror it.
-2. Convert to HSV and threshold for vegetation: H ∈ [35, 85], S ∈ [40, 255], V ∈ [40, 255].
-3. Clean the mask with a 5 × 5 morphological **open** followed by **dilate**.
-4. Take the largest external contour; ignore it if its area ≤ 2,000 px (reported as `No Plant`).
-5. Crop the bounding box, resize to 224 × 224, rescale to `[0, 1]`, and classify.
-6. Draw the box (**green** = healthy, **red** = diseased), the label with softmax confidence,
-   and a rolling FPS counter. `ESC` exits.
-
----
-
-## Results
-
-Running [`train.py`](train.py) writes three figures to `results/` (not committed):
-
-| Artifact | Description |
-|---|---|
-| `results/accuracy.png` | Training vs. validation accuracy per epoch |
-| `results/loss.png` | Training vs. validation loss per epoch |
-| `results/confusion_matrix.png` | 6 × 6 confusion matrix over the validation split |
-
-**Metrics from the latest run** — regenerate and fill in after training; do not cite figures
-you have not reproduced:
+Trained with [ml/train.py](ml/train.py) on 4,722 PlantVillage images. The original validation folder was split by a hash of each filename into a **validation half** (model selection and calibration) and a **held-out test half** that the model never trained on. Everything below is measured on that test half.
 
 | Metric | Value |
 |---|---|
-| Final training accuracy | _TBD_ |
-| Final validation accuracy | _TBD_ |
-| Final validation loss | _TBD_ |
-| Weakest class (per confusion matrix) | _TBD_ |
-| Wall-clock training time / hardware | _TBD_ |
-| Inference throughput (FPS, live) | _TBD_ |
+| Test accuracy | {{ACC}} |
+| Macro F1 | {{F1}} |
+| Calibration error (ECE), before → after temperature scaling | {{ECE}} |
+| Test images | {{NTEST}} |
+| Model size | {{SIZE}} MB (ONNX) |
+| Training time | {{MIN}} min on an 8-core laptop CPU |
 
-> [!WARNING]
-> `dataset/val` is used **both** as the per-epoch validation set and as the evaluation set for
-> the confusion matrix. There is no held-out test split, so these numbers are an optimistic
-> upper bound, not an unbiased generalisation estimate. See
-> [Limitations](#limitations-and-known-issues).
+Per-class results, training curves and the confusion matrix are in [ml/results/](ml/results/).
 
----
+> **Read these numbers carefully.** PlantVillage images are single leaves photographed in a lab on plain backgrounds. Field photos and web photos are much harder, so expect lower accuracy in real use. That's why AVIS shows uncertainty and points people to experts.
 
-## Repository structure
+### What I fixed from my first prototype
 
-```
-AVIS/
-├── train.py            # Transfer-learning training + evaluation figures
-├── detect.py           # Real-time webcam detection & classification loop
-├── plant_model.h5      # Pre-trained weights (~11 MB), ready for inference
-├── dataset/
-│   ├── train/          # 4,722 images across 6 class directories
-│   └── val/            # 2,183 images across the same 6 classes
-└── results/            # Generated by train.py (accuracy, loss, confusion matrix)
-```
+My first version ([legacy/](legacy/)) was a Keras webcam script. I listed its problems and fixed each one:
 
-> The image corpus is committed to version control, so a full clone is **~126 MB**. Use
-> `git clone --depth 1` if you only need a working copy.
-
----
-
-## Getting started
-
-### Requirements
-
-- Python 3.9–3.11
-- A webcam or USB camera (for `detect.py` only)
-- ~2 GB free RAM for training at batch size 16; a GPU is optional but cuts training time
-  substantially
-
-### Installation
-
-```bash
-git clone --depth 1 https://github.com/vyom-aggarwal/AVIS.git
-```
-
-```bash
-python -m venv .venv && source .venv/bin/activate
-```
-
-On Windows PowerShell, activate with `.venv\Scripts\Activate.ps1` instead.
-
-```bash
-pip install "tensorflow>=2.10,<2.17" opencv-python numpy matplotlib scikit-learn pillow
-```
-
-### Reproduce training
-
-```bash
-python train.py
-```
-
-Prints the resolved class list and model summary, trains for 10 epochs, overwrites
-`plant_model.h5`, and writes the three figures into `results/`.
-
-### Run live detection
-
-```bash
-python detect.py
-```
-
-Opens a `Plant Disease Detection` window using the default camera. Hold a leaf in frame
-against a non-green background for the best segmentation. Press `ESC` to quit.
-
----
-
-## Reproducibility
-
-| Aspect | Status |
+| Prototype problem | Fix in AVIS |
 |---|---|
-| Data | Committed in-repo — exact train/val split is fixed and shareable |
-| Weights | `plant_model.h5` committed — inference reproducible without retraining |
-| Random seed | **Not set.** Shuffling, augmentation, and head initialisation vary run to run; expect small metric drift between retrains |
-| Environment | No lockfile — pin your exact versions before reporting results |
-| Hardware | Not recorded — log CPU/GPU and wall-clock time alongside any metrics you publish |
+| Fed BGR camera frames to a model trained on RGB images | The browser canvas gives RGB, and normalization is built into the exported model |
+| No held-out test set | Deterministic validation/test split |
+| 11× class imbalance, uncorrected | Class-weighted loss |
+| Frozen backbone only | Two stages: train the head, then fine-tune the top MobileNetV2 blocks |
+| Overconfident softmax and no "unsure" state | Temperature scaling plus a 60% abstention threshold and photo-quality checks |
+| No random seeds | Seeded training (`SEED = 42`) |
+| Desktop webcam only | Offline phone app plus drone-photo mode |
 
-To make a run citable, set seeds at the top of `train.py`
-(`tf.keras.utils.set_random_seed(...)`), record your package versions with `pip freeze`, and
-archive `results/` alongside them.
+## How it works
 
----
+```mermaid
+flowchart LR
+  subgraph Train["Training (Python, once)"]
+    A[PlantVillage leaves] --> B[MobileNetV2 + class-weighted fine-tuning]
+    B --> C[Temperature calibration]
+    C --> D[(avis.onnx: probs + CAM)]
+  end
+  subgraph Phone["On the phone (offline)"]
+    E[Leaf photo] --> G[Crop 224×224 + quality check]
+    F[Drone frame] --> H[Tile grid, skip non-plant tiles]
+    H --> G
+    G --> I[ONNX Runtime Web, WASM]
+    D --> I
+    I --> J[Diagnosis + heat map + 'not sure']
+    J --> K[(IndexedDB field log + GPS)]
+  end
+  W[Open-Meteo forecast] --> R[Hutton late-blight + bacterial-spot risk]
+```
 
-## Limitations and known issues
+## Run it
 
-Stated plainly, because they bound what the reported accuracy actually means.
+**App** (Node 20+):
 
-1. **Colour-channel mismatch at inference.** Training images are loaded through PIL in **RGB**
-   order, while `detect.py` feeds OpenCV frames to the model in **BGR** order without a
-   `cv2.cvtColor(..., cv2.COLOR_BGR2RGB)` conversion. The live model therefore sees channel-swapped
-   input relative to training, and live accuracy will be measurably worse than validation
-   accuracy suggests. Fix this before quoting any real-world performance figure.
-2. **No held-out test set.** The validation split drives both model selection and final
-   evaluation (see [Results](#results)).
-3. **Severe class imbalance**, uncorrected — the minority `potato-healthy` class is 11× smaller
-   than the largest class.
-4. **One pathology per crop.** "Diseased" means bacterial spot (pepper) or late blight
-   (potato, tomato) specifically. Any other disease is out of distribution, and the model will
-   still emit a confident six-way softmax for it.
-5. **Laboratory imagery, field ambitions.** PlantVillage images are single detached leaves on
-   uniform backgrounds under controlled lighting. Models trained on it are well documented to
-   degrade sharply on in-field and aerial imagery with occlusion, variable lighting, and
-   cluttered backgrounds. Treat current numbers as an upper bound on field performance.
-6. **Hand-tuned HSV segmentation.** The vegetation mask is a fixed green threshold, not a
-   learned detector: it is sensitive to illumination, breaks against green backgrounds, and
-   handles exactly one plant per frame (the largest contour).
-7. **No calibration or abstention.** Softmax confidence is displayed but never thresholded — the
-   system has no "unsure" state.
-8. **Legacy model format.** `.h5` is deprecated in favour of the `.keras` format in current
-   Keras releases; expect load-time warnings on newer versions.
-9. **Drone deployment is not yet demonstrated.** The current loop reads a local webcam; the
-   aerial platform is motivation, not a validated result.
+```bash
+cd app && npm install && npm run dev
+```
 
----
+Open the printed URL. To test on a phone on the same Wi-Fi network, run `npm run dev -- --host`. Production build: `npm run build`, which writes the output to `app/dist/`.
+
+**Deploy.** Pushing to `main` runs [.github/workflows/deploy.yml](.github/workflows/deploy.yml), which publishes the app to GitHub Pages. Turn it on once under *Settings → Pages → Source: GitHub Actions*.
+
+**Retrain the model** (Python 3.10–3.13):
+
+```bash
+python -m venv .venv && .venv/Scripts/activate  # macOS/Linux: source .venv/bin/activate
+pip install -r ml/requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu
+python ml/train.py
+```
+
+Training writes `app/public/model/avis.onnx`, `model-info.json`, and the metrics and plots in `ml/results/`.
+
+**Demo images.** `demo/leaves/` holds held-out test leaves. `demo/simulated_drone_frame.jpg` is a **simulated** drone frame built from test leaves by [ml/make_demo_mosaic.py](ml/make_demo_mosaic.py).
+
+## Repository layout
+
+```
+app/        React + TypeScript PWA (the farmer-facing app)
+  src/model.ts      on-device inference, heat maps, quality checks, drone tiling, EXIF GPS
+  src/risk.ts       weather-driven disease risk models
+  src/diseases.ts   disease guidance in EN / ES / PA
+  src/i18n.ts       interface text in EN / ES / PA
+ml/         training, evaluation and ONNX export (PyTorch)
+dataset/    PlantVillage train/val images
+demo/       demo images for presentations
+docs/       Congressional App Challenge submission kit
+legacy/     original Keras + OpenCV prototype
+```
+
+## Limitations (stated plainly)
+
+1. Three diseases on three crops. Any other problem, such as powdery mildew, nutrient deficiency or pests, is outside what the model knows. AVIS may say "not sure," or it may be wrong.
+2. Trained on lab images. Real field and drone performance **has not been validated yet**. Drone mode needs low flights (about 2–5 m) where individual leaves are visible.
+3. The risk forecast uses published rules of thumb, not a calibrated local model. It's a prompt to scout, not a spray decision.
+4. Spanish and Punjabi text should be reviewed by native-speaking growers.
+5. AVIS is a screening tool, not a diagnosis. Treatment decisions belong with a UCCE farm advisor or licensed PCA.
 
 ## Roadmap
 
-- [ ] Fix the BGR → RGB conversion in `detect.py` and re-measure live accuracy
-- [ ] Carve out a true held-out test split and report per-class precision / recall / F1
-- [ ] Apply class weighting or balanced sampling for the minority classes
-- [ ] Add a fine-tuning stage that unfreezes the top MobileNetV2 blocks at a low learning rate
-- [ ] Set random seeds and publish a pinned `requirements.txt` for exact reproduction
-- [ ] Expand beyond one pathology per crop; add an out-of-distribution / "unknown" class
-- [ ] Validate on real field and aerial imagery, not just PlantVillage
-- [ ] Add Grad-CAM overlays to verify the model attends to lesions rather than background
-- [ ] Export to TFLite / Edge TPU and benchmark onboard drone inference
+- Field-test with Central Valley growers and UCCE farm advisors; collect real field photos (with consent) to fine-tune
+- Add Valley crops: grapes (powdery mildew), almonds (hull rot), pistachios
+- Validate drone mode against ground-truth scouting
+- Optional, opt-in anonymous outbreak map for neighboring growers
 
----
+## Credits
 
-## Citation
-
-If you use this work, please cite both the repository and the underlying dataset.
-
-```bibtex
-@software{aggarwal_avis_2026,
-  author  = {Aggarwal, Vyom},
-  title   = {{AVIS}: Autonomous Vegetation Imaging System},
-  year    = {2026},
-  url     = {https://github.com/vyom-aggarwal/AVIS}
-}
-
-@article{hughes2015plantvillage,
-  author  = {Hughes, David P. and Salath{\'e}, Marcel},
-  title   = {An open access repository of images on plant health to enable
-             the development of mobile disease diagnostics},
-  journal = {arXiv preprint arXiv:1511.08060},
-  year    = {2015}
-}
-```
-
----
-
-## Acknowledgements
-
-- **PlantVillage** — Hughes & Salathé (2015), [arXiv:1511.08060](https://arxiv.org/abs/1511.08060) — source of all labelled imagery.
-- **MobileNetV2** — Sandler et al., CVPR 2018, [arXiv:1801.04381](https://arxiv.org/abs/1801.04381) — backbone architecture.
-- Built with [TensorFlow / Keras](https://www.tensorflow.org/), [OpenCV](https://opencv.org/), [scikit-learn](https://scikit-learn.org/), and [Matplotlib](https://matplotlib.org/).
+- **PlantVillage**: Hughes & Salathé (2015), [arXiv:1511.08060](https://arxiv.org/abs/1511.08060)
+- **MobileNetV2**: Sandler et al., CVPR 2018
+- **UC IPM**: University of California Statewide Integrated Pest Management Program ([ipm.ucanr.edu](https://ipm.ucanr.edu/)), the source for disease guidance
+- **Hutton criteria**: AHDB (2017) late-blight risk criteria
+- Weather: [Open-Meteo](https://open-meteo.com/) · Maps: © OpenStreetMap contributors · Runtime: ONNX Runtime Web
 
 ## License
 
-No license has been specified for this repository yet, which means default copyright applies
-and others have no formal permission to reuse the code. Adding a `LICENSE` file (MIT or
-Apache-2.0 are common for research prototypes) is recommended before publication. Note that
-PlantVillage imagery carries its own upstream license terms.
+MIT; see [LICENSE](LICENSE). PlantVillage imagery is covered by its own upstream terms.
