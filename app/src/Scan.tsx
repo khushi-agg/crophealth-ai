@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { DISEASES, isHealthy, type Crop } from "./diseases";
 import { speak, useT, type Lang } from "./i18n";
-import { classifyCanvas, drawCam, fileToImage, loadModel, readExifGps, regionToCanvas, thumbnail, type Prediction } from "./model";
+import { classifyCanvas, fileToImage, loadModel, readExifGps, regionToCanvas, thumbnail, type Prediction } from "./model";
 import { analyzeField, frameCanvas, M2_PER_ACRE, readDroneMeta, type DroneMeta } from "./aerial";
 import { addScan, getPosition } from "./store";
 import { DiseaseDetails } from "./Guide";
@@ -87,7 +87,6 @@ function LeafScan({ crop, onSaved }: { crop: CropChoice; onSaved: () => void }) 
 
 function LeafResult({ pred, base, gps, lang, onAgain, onSaved }: { pred: Prediction; base: HTMLCanvasElement; gps: { lat: number; lon: number } | null; lang: Lang; onAgain: () => void; onSaved: () => void }) {
   const { t } = useT();
-  const [showCam, setShowCam] = useState(!isHealthy(pred.classId));
   const [field, setField] = useState("");
   const [notes, setNotes] = useState("");
   const [useGps, setUseGps] = useState(true);
@@ -100,9 +99,9 @@ function LeafResult({ pred, base, gps, lang, onAgain, onSaved }: { pred: Predict
 
   useEffect(() => {
     const c = view.current!;
-    if (showCam) drawCam(c, base, pred.cam);
-    else { c.width = c.height = 224; c.getContext("2d")!.drawImage(base, 0, 0); }
-  }, [showCam, base, pred.cam]);
+    c.width = c.height = 224;
+    c.getContext("2d")!.drawImage(base, 0, 0);
+  }, [base]);
 
   const headline = status === "unsure" ? t("resultUnsure") : status === "healthy" ? t("resultHealthy") : t("resultDiseased");
 
@@ -127,12 +126,6 @@ function LeafResult({ pred, base, gps, lang, onAgain, onSaved }: { pred: Predict
           </div>
         </div>
         <canvas ref={view} className="scan-img" />
-        {!healthy && !pred.unsure && (
-          <div className="row between">
-            <small>{showCam ? t("heatmap") : ""}</small>
-            <button className="link" onClick={() => setShowCam(!showCam)}>{showCam ? t("hideHeatmap") : t("showHeatmap")}</button>
-          </div>
-        )}
         {status !== "unsure" && (
           <>
             <div className="meter" aria-label={t("confidence")}>

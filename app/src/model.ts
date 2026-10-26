@@ -29,7 +29,6 @@ export interface Prediction {
   probs: Record<ClassId, number>;
   diseaseProb: number;
   unsure: boolean;
-  cam: Float32Array; // 7x7 activation map for the predicted class, normalised 0..1
   quality: Quality;
 }
 
@@ -96,7 +95,6 @@ export async function classifyCanvas(canvas: HTMLCanvasElement, crop: Crop | "au
   }
   const out = await s.run({ image: new ort.Tensor("float32", input, [1, 3, SIZE, SIZE]) });
   const raw = out.probs.data as Float32Array;
-  const camAll = out.cam.data as Float32Array;
 
   // If the grower told us the crop, only compare that crop's classes.
   const allowed = info.classes.map((c) => crop === "auto" || CLASS_CROP[c] === crop);
@@ -110,33 +108,8 @@ export async function classifyCanvas(canvas: HTMLCanvasElement, crop: Crop | "au
   const classId = info.classes[best];
   const diseaseProb = info.classes.reduce((a, c) => a + (isHealthy(c) ? 0 : probs[c]), 0);
 
-  // CAM for the "diseased" class of the predicted crop: shows where lesions drove the score.
-  const camClass = info.classes.findIndex((c) => CLASS_CROP[c] === CLASS_CROP[classId] && !isHealthy(c));
-  const cam = camAll.slice(camClass * 49, camClass * 49 + 49);
-  let lo = Infinity, hi = -Infinity;
-  cam.forEach((v) => { lo = Math.min(lo, v); hi = Math.max(hi, v); });
-  for (let i = 0; i < 49; i++) cam[i] = hi > lo ? (cam[i] - lo) / (hi - lo) : 0;
-
   const quality = checkQuality(data);
-  return { classId, confidence: probs[classId], probs, diseaseProb, cam, quality, unsure: probs[classId] < UNSURE_BELOW || quality.warnings.includes("warnNoLeaf") };
-}
-
-/** Paint a 7x7 CAM as a smooth red overlay on top of the scanned image. */
-export function drawCam(target: HTMLCanvasElement, base: HTMLCanvasElement, cam: Float32Array) {
-  const small = document.createElement("canvas");
-  small.width = small.height = 7;
-  const sctx = small.getContext("2d")!, img = sctx.createImageData(7, 7);
-  for (let i = 0; i < 49; i++) {
-    const v = Math.max(0, (cam[i] - 0.35) / 0.65) ** 1.2; // only the strongest evidence
-    img.data.set([230, 40, 30, Math.round(v * 190)], i * 4);
-  }
-  sctx.putImageData(img, 0, 0);
-  target.width = target.height = SIZE;
-  const ctx = target.getContext("2d")!;
-  ctx.drawImage(base, 0, 0);
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = "high";
-  ctx.drawImage(small, 0, 0, SIZE, SIZE);
+  return { classId, confidence: probs[classId], probs, diseaseProb, quality, unsure: probs[classId] < UNSURE_BELOW || quality.warnings.includes("warnNoLeaf") };
 }
 
 export function thumbnail(src: CanvasImageSource, w: number, h: number, max = 320) {
