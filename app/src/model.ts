@@ -179,12 +179,16 @@ export function lesionMap(display: HTMLCanvasElement, cam: Float32Array): Lesion
     if (!(plant[i] || leaf[i] >= 0.35)) continue;
     inLeaf[i] = 1;
     const h = H[i], s = Sat[i], v = V[i], lv = localV[i];
+    // Dark and washed-out signals only count well inside a leaf: at its rim, pixels blend
+    // with shadow or background and would otherwise light up the outline.
+    const enclosed = Math.max(0, Math.min(1, (leaf[i] - 0.7) / 0.2));
     // Browner/yellower than the healthy leaf (hue shifted down toward orange), or red/purple.
-    const hueShift = s >= 0.12 ? (h > 300 ? 1 : Math.max(0, Math.min(1, (leafHue - 18 - h) / 30))) : 0;
+    // Vivid, bright orange/yellow is a flower or fruit rather than a dull lesion, and colour
+    // at the very rim is mostly blending with the background, so both count for less.
+    const vivid = s > 0.55 && v > 0.65 ? 0.15 : 1;
+    const hueShift = s >= 0.12 ? vivid * (0.3 + 0.7 * enclosed) * (h > 300 ? 1 : Math.max(0, Math.min(1, (leafHue - 18 - h) / 30))) : 0;
     // Washed-out grey/beige tissue (late blight, dead patches); skip bright glare.
-    const desat = v < 0.88 ? 0.9 * Math.max(0, Math.min(1, (0.7 * leafSat - s) / (0.45 * leafSat || 1))) : 0;
-    // Dark spots must sit well inside the leaf; gaps between overlapping leaves sit on its edge.
-    const enclosed = Math.max(0, Math.min(1, (leaf[i] - 0.55) / 0.25));
+    const desat = v < 0.88 ? 0.9 * enclosed * Math.max(0, Math.min(1, (0.7 * leafSat - s) / (0.45 * leafSat || 1))) : 0;
     const dark = enclosed * Math.max(0, Math.min(1, (0.82 * lv - v) / (0.3 * lv || 1)));
     raw[i] = Math.max(hueShift, desat, dark);
   }
@@ -201,7 +205,7 @@ export function lesionMap(display: HTMLCanvasElement, cam: Float32Array): Lesion
       const a = cam[y0 * 7 + x0] * (1 - fx) + cam[y0 * 7 + x1] * fx, b = cam[y1 * 7 + x0] * (1 - fx) + cam[y1 * 7 + x1] * fx;
       const c = a * (1 - fy) + b * fy;
       if (c >= 0.3) { focus[i] = 1; focusPx++; }
-      raw[i] *= 0.35 + 0.65 * c;
+      raw[i] *= 0.15 + 0.85 * c; // background foliage the AI ignored stays cool
     }
   }
   const heat = boxBlur(raw, S, Math.max(1, Math.round(S / 224)));
