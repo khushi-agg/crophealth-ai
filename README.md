@@ -7,7 +7,7 @@ for disease in about a second. Fly a drone over the field, and CropHealth AI fin
 canopy across the whole field, measures it in acres, and pins every problem zone on a map. It needs no
 cell signal, no account, and no upload.
 
-> **Live app:** https://vyom-aggarwal.github.io/crophealth-ai/ (open on your phone and choose *Add to Home Screen*)
+> **Live app:** https://khushi-agg.github.io/crophealth-ai/ (open on your phone and choose *Add to Home Screen*)
 >
 > Built for the 2026 Congressional App Challenge. See [docs/SUBMISSION.md](docs/SUBMISSION.md) for the submission kit and demo script.
 
@@ -126,7 +126,13 @@ cd app && npm install && npm run dev
 
 Open the printed URL. To test on a phone on the same Wi-Fi network, run `npm run dev -- --host`. Production build: `npm run build`, which writes the output to `app/dist/`.
 
-**Deploy.** Pushing to `main` runs [.github/workflows/deploy.yml](.github/workflows/deploy.yml), which publishes the app to GitHub Pages. Turn it on once under *Settings → Pages → Source: GitHub Actions*.
+**Deploy.** Source lives in `vyom-aggarwal/crophealth-ai`; the site is hosted from the mirror `khushi-agg/crophealth-ai` (GitHub Pages, source: GitHub Actions). [.github/workflows/deploy.yml](.github/workflows/deploy.yml) only runs in the mirror. Push to both:
+
+```bash
+git push origin main && git push hosting main
+```
+
+(`hosting` is `https://khushi-agg@github.com/khushi-agg/crophealth-ai.git`.)
 
 **Retrain the model** (Python 3.10–3.13):
 

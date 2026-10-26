@@ -84,7 +84,7 @@ Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. Lines in quote blocks are spoken. Wor
 
 **Show:** the Home screen, then an end card.
 
-**End card:** `CropHealth AI · vyom-aggarwal.github.io/crophealth-ai · github.com/vyom-aggarwal/crophealth-ai`
+**End card:** `CropHealth AI · khushi-agg.github.io/crophealth-ai · github.com/vyom-aggarwal/crophealth-ai`
 
 > I built CropHealth AI for the farms and families I grew up around. Next, I want to test it with local growers and add more Valley crops, like grapes and almonds. Thanks for watching.
 

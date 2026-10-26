@@ -2,7 +2,7 @@
 
 **Deadline: Monday, October 26, 2026, 12:00 PM ET (9:00 AM PT).** Submissions can't be changed after the deadline.
 
-**Repo:** https://github.com/vyom-aggarwal/crophealth-ai · **Live app:** https://vyom-aggarwal.github.io/crophealth-ai/
+**Repo:** https://github.com/vyom-aggarwal/crophealth-ai · **Live app:** https://khushi-agg.github.io/crophealth-ai/
 
 ## Checklist
 

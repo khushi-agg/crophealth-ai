@@ -12,6 +12,8 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build:
+    # The site is hosted from the khushi-agg mirror; the source repo never deploys.
+    if: github.repository_owner == 'khushi-agg'
     runs-on: ubuntu-latest
     defaults:
       run:
