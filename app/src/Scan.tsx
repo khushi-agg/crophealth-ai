@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { DISEASES, isHealthy, type Crop } from "./diseases";
 import { speak, useT } from "./i18n";
 import { classifyCanvas, drawCam, fileToImage, loadModel, readExifGps, regionToCanvas, thumbnail, type Prediction } from "./model";
-import { analyzeField, drawZones, frameCanvas, M2_PER_ACRE, readDroneMeta, type DroneMeta } from "./aerial";
+import { analyzeField, frameCanvas, M2_PER_ACRE, readDroneMeta, type DroneMeta } from "./aerial";
 import { addScan, getPosition } from "./store";
 import { DiseaseDetails } from "./Guide";
 
@@ -206,16 +206,14 @@ const fmtArea = (m2: number) => (m2 >= 4047 ? `${(m2 / M2_PER_ACRE).toFixed(2)} 
 function DroneCard({ r, onSaved }: { r: DroneResult; onSaved: () => void }) {
   const { t } = useT();
   const ref = useRef<HTMLCanvasElement>(null);
-  const [seed, setSeed] = useState<{ x: number; y: number }>(); // undefined = largest field
-  const fh = useMemo(() => analyzeField(r.frame, r.meta, seed), [r, seed]);
+  const fh = useMemo(() => analyzeField(r.frame, r.meta), [r]);
   const flaggedShare = fh.fieldPx ? fh.flaggedPx / fh.fieldPx : 0;
 
-  useEffect(() => { drawZones(ref.current!, r.frame, fh); }, [r, fh]);
-
-  function pick(e: React.MouseEvent<HTMLCanvasElement>) {
-    const b = e.currentTarget.getBoundingClientRect();
-    setSeed({ x: (e.clientX - b.left) / b.width, y: (e.clientY - b.top) / b.height });
-  }
+  useEffect(() => {
+    const c = ref.current!;
+    c.width = r.frame.width; c.height = r.frame.height;
+    c.getContext("2d")!.drawImage(r.frame, 0, 0);
+  }, [r]);
 
   async function save() {
     const pinned = fh.hotspots.filter((h) => h.lat !== undefined);
@@ -240,8 +238,7 @@ function DroneCard({ r, onSaved }: { r: DroneResult; onSaved: () => void }) {
         {r.meta.lat !== undefined && <span className="chip static">📍 GPS</span>}
         {r.meta.model && <span className="chip static">{r.meta.model}</span>}
       </div>
-      <canvas ref={ref} className="scan-img wide tappable" onClick={pick} />
-      <small className="muted">👆 {t("tapField")}</small>
+      <canvas ref={ref} className="scan-img wide" />
 
       <h2>{fh.hotspots.length ? `${fh.hotspots.length} ${t("zonesFlagged")}` : t("noZones")}</h2>
       <p className="severity">

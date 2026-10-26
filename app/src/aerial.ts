@@ -23,7 +23,6 @@ export interface FieldHealth {
   width: number;
   height: number;
   field: Uint8Array; // 1 = inside the analysed field
-  zones: Uint8Array; // problem-zone id (1..8) per pixel, 0 = none
   fieldPx: number;
   flaggedPx: number;
   hotspots: Hotspot[];
@@ -272,7 +271,7 @@ export function analyzeField(canvas: HTMLCanvasElement, meta: DroneMeta, seed?: 
   let flaggedPx = 0;
   for (let i = 0; i < n; i++) if (field[i] && smooth[i] >= 0.5) { hot[i] = 1; flaggedPx++; }
   const minPx = Math.max(25, fieldPx * 0.0015);
-  const spots: (Hotspot & { members: number[] })[] = [];
+  const spots: Hotspot[] = [];
   for (let i = 0; i < n; i++) {
     if (hot[i] !== 1) continue;
     let sumX = 0, sumY = 0, sxx = 0, syy = 0, sxy = 0, gapVotes = 0;
@@ -296,12 +295,10 @@ export function analyzeField(canvas: HTMLCanvasElement, meta: DroneMeta, seed?: 
       flaggedPx -= count;
       continue;
     }
-    if (count >= minPx) spots.push({ id: 0, x: mx, y: my, px: count, kind: gapVotes > count / 2 ? "gap" : "stress", members });
+    if (count >= minPx) spots.push({ id: 0, x: mx, y: my, px: count, kind: gapVotes > count / 2 ? "gap" : "stress" });
   }
   spots.sort((a, b) => b.px - a.px);
-  const zones = new Uint8Array(n);
-  const hotspots = spots.slice(0, 8).map(({ members, ...s }, k) => {
-    for (const j of members) zones[j] = k + 1;
+  const hotspots = spots.slice(0, 8).map((s, k) => {
     const out: Hotspot = { ...s, id: k + 1 };
     if (m2PerPx) out.areaM2 = s.px * m2PerPx;
     if (gsdCm && meta.lat !== undefined && meta.lon !== undefined && meta.yaw !== undefined) {
@@ -315,43 +312,7 @@ export function analyzeField(canvas: HTMLCanvasElement, meta: DroneMeta, seed?: 
     }
     return out;
   });
-  return { width: w, height: h, field, zones, fieldPx, flaggedPx, hotspots, gsdCm, fieldAreaM2: m2PerPx ? fieldPx * m2PerPx : undefined, nadir };
-}
-
-/** Draw the drone photo with the analysed field outlined in white and each problem zone outlined in red. */
-export function drawZones(target: HTMLCanvasElement, frame: HTMLCanvasElement, fh: FieldHealth) {
-  const { width: w, height: h, field, zones } = fh;
-  target.width = w; target.height = h;
-  const ctx = target.getContext("2d")!;
-  ctx.drawImage(frame, 0, 0);
-  const img = ctx.getImageData(0, 0, w, h), d = img.data;
-  const paint = (i: number, r: number, g: number, b: number) => { d[i * 4] = r; d[i * 4 + 1] = g; d[i * 4 + 2] = b; };
-  const t = Math.max(1, Math.round(Math.max(w, h) / 400)); // outline thickness
-  for (let y = 0; y < h; y++)
-    for (let x = 0; x < w; x++) {
-      const i = y * w + x;
-      const nb = [x > 0 ? i - 1 : i, x < w - 1 ? i + 1 : i, y > 0 ? i - w : i, y < h - 1 ? i + w : i];
-      const zoneEdge = zones[i] && nb.some((k) => zones[k] !== zones[i]);
-      const fieldEdge = field[i] && nb.some((k) => !field[k]);
-      if (!zoneEdge && !fieldEdge) continue;
-      for (let dy = 0; dy <= t; dy++)
-        for (let dx = 0; dx <= t; dx++) {
-          const k = Math.min(h - 1, y + dy) * w + Math.min(w - 1, x + dx);
-          if (zoneEdge) paint(k, 230, 30, 30);
-          else if (!zones[k]) paint(k, 255, 255, 255);
-        }
-    }
-  ctx.putImageData(img, 0, 0);
-  // Numbered hotspot markers.
-  const r = Math.max(12, Math.round(Math.max(w, h) / 45));
-  ctx.font = `bold ${Math.round(r * 1.1)}px system-ui`;
-  ctx.textAlign = "center"; ctx.textBaseline = "middle";
-  for (const s of fh.hotspots) {
-    ctx.beginPath(); ctx.arc(s.x, s.y, r, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(255,255,255,0.92)"; ctx.fill();
-    ctx.lineWidth = Math.max(2, r / 5); ctx.strokeStyle = "#c62828"; ctx.stroke();
-    ctx.fillStyle = "#c62828"; ctx.fillText(String(s.id), s.x, s.y + 1);
-  }
+  return { width: w, height: h, field, fieldPx, flaggedPx, hotspots, gsdCm, fieldAreaM2: m2PerPx ? fieldPx * m2PerPx : undefined, nadir };
 }
 
 export const M2_PER_ACRE = 4046.86;
