@@ -1,0 +1,176 @@
+{
+  "classes": [
+    "bell-pepper-diseased",
+    "bell-pepper-healthy",
+    "potato-diseased",
+    "potato-healthy",
+    "tomato-diseased",
+    "tomato-healthy"
+  ],
+  "temperature": 0.3387240767478943,
+  "test_accuracy": 0.9899451553930531,
+  "test_macro_f1": 0.9822636171588793,
+  "test_ece_raw": 0.10352908819913864,
+  "test_ece_calibrated": 0.005270929541438818,
+  "per_class": {
+    "bell-pepper-diseased": {
+      "precision": 1.0,
+      "recall": 0.9931,
+      "f1-score": 0.9965,
+      "support": 144.0
+    },
+    "bell-pepper-healthy": {
+      "precision": 0.9959,
+      "recall": 1.0,
+      "f1-score": 0.9979,
+      "support": 240.0
+    },
+    "potato-diseased": {
+      "precision": 0.9856,
+      "recall": 0.9763,
+      "f1-score": 0.981,
+      "support": 211.0
+    },
+    "potato-healthy": {
+      "precision": 0.88,
+      "recall": 1.0,
+      "f1-score": 0.9362,
+      "support": 22.0
+    },
+    "tomato-diseased": {
+      "precision": 0.9924,
+      "recall": 0.9811,
+      "f1-score": 0.9867,
+      "support": 265.0
+    },
+    "tomato-healthy": {
+      "precision": 0.9907,
+      "recall": 1.0,
+      "f1-score": 0.9953,
+      "support": 212.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      143,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      240,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      206,
+      3,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      22,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      3,
+      0,
+      260,
+      2
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      212
+    ]
+  ],
+  "history": [
+    {
+      "stage": "head",
+      "epoch": 1,
+      "train_loss": 1.0202962407516454,
+      "train_acc": 0.7842016094875053,
+      "val_acc": 0.8696051239967346,
+      "val_loss": 0.45235106348991394,
+      "sec": 408.6887845993042
+    },
+    {
+      "stage": "head",
+      "epoch": 2,
+      "train_loss": 0.7430241224070011,
+      "train_acc": 0.8786531130876747,
+      "val_acc": 0.9109274744987488,
+      "val_loss": 0.351948082447052,
+      "sec": 253.00060653686523
+    },
+    {
+      "stage": "head",
+      "epoch": 3,
+      "train_loss": 0.7074032544786776,
+      "train_acc": 0.8979246082168573,
+      "val_acc": 0.9072543382644653,
+      "val_loss": 0.3637363314628601,
+      "sec": 288.256507396698
+    },
+    {
+      "stage": "finetune",
+      "epoch": 1,
+      "train_loss": 0.6586438650703188,
+      "train_acc": 0.9169843286742906,
+      "val_acc": 0.9641873240470886,
+      "val_loss": 0.19287283718585968,
+      "sec": 300.99522709846497
+    },
+    {
+      "stage": "finetune",
+      "epoch": 2,
+      "train_loss": 0.5559331042844328,
+      "train_acc": 0.963151207115629,
+      "val_acc": 0.9853076338768005,
+      "val_loss": 0.14726532995700836,
+      "sec": 291.5421772003174
+    },
+    {
+      "stage": "finetune",
+      "epoch": 3,
+      "train_loss": 0.5145306038886801,
+      "train_acc": 0.9803049555273189,
+      "val_acc": 0.9908172488212585,
+      "val_loss": 0.1480521708726883,
+      "sec": 455.8147163391113
+    },
+    {
+      "stage": "finetune",
+      "epoch": 4,
+      "train_loss": 0.5064803742090053,
+      "train_acc": 0.981999152901313,
+      "val_acc": 0.9917355179786682,
+      "val_loss": 0.136412113904953,
+      "sec": 337.9918375015259
+    }
+  ],
+  "split": {
+    "train": 4722,
+    "val": 1089,
+    "test": 1094
+  },
+  "train_minutes": 38.9,
+  "seed": 42,
+  "torch": "2.14.1+cpu"
+}

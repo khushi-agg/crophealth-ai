@@ -1,0 +1,21 @@
+{
+  "classes": [
+    "bell-pepper-diseased",
+    "bell-pepper-healthy",
+    "potato-diseased",
+    "potato-healthy",
+    "tomato-diseased",
+    "tomato-healthy"
+  ],
+  "input": [
+    1,
+    3,
+    224,
+    224
+  ],
+  "temperature": 0.3387240767478943,
+  "test_accuracy": 0.9899451553930531,
+  "test_macro_f1": 0.9822636171588793,
+  "test_images": 1094,
+  "version": "2026-10-25"
+}

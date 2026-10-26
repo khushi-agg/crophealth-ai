@@ -78,7 +78,7 @@ Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. One presenter reads every line. Spoke
 | | |
 |---|---|
 | **Shot** | Quick cuts: the code editor showing `ml/train.py`, then `ml/results/confusion_matrix.png`, then `training_curves.png`. End on you. |
-| **On-screen text** | `TypeScript · React · Python · PyTorch · ONNX` · `[ACC]% accuracy on held-out test images` |
+| **On-screen text** | `TypeScript · React · Python · PyTorch · ONNX` · `99% accuracy on 1,094 held-out test images` |
 
 > I trained a MobileNetV2 neural network in Python on about 4,700 leaf images and tested it on images it had never seen. Then I exported it so it runs inside the phone's browser. My first version had real bugs, like feeding the model the wrong color order, and fixing them taught me how to test AI honestly. Next, I want to test AVIS with local growers and add Valley crops like grapes and almonds. Thanks for watching!
 

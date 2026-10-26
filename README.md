@@ -55,14 +55,18 @@ Trained with [ml/train.py](ml/train.py) on 4,722 PlantVillage images. The origin
 
 | Metric | Value |
 |---|---|
-| Test accuracy | {{ACC}} |
-| Macro F1 | {{F1}} |
-| Calibration error (ECE), before → after temperature scaling | {{ECE}} |
-| Test images | {{NTEST}} |
-| Model size | {{SIZE}} MB (ONNX) |
-| Training time | {{MIN}} min on an 8-core laptop CPU |
+| Test accuracy | **99.0%** |
+| Macro F1 | 0.982 |
+| Calibration error (ECE), before → after temperature scaling | 0.104 → **0.005** |
+| Test images | 1,094 |
+| Model size | 8.9 MB (ONNX) |
+| Training time | 39 min on an 8-core laptop CPU |
 
-Per-class results, training curves and the confusion matrix are in [ml/results/](ml/results/).
+The weakest class is `potato-healthy` (F1 0.936, only 22 test images), the smallest class in the dataset. Per-class results are in [ml/results/metrics.json](ml/results/metrics.json).
+
+| Training curves | Held-out test confusion matrix |
+|---|---|
+| ![curves](ml/results/training_curves.png) | ![confusion](ml/results/confusion_matrix.png) |
 
 > **Read these numbers carefully.** PlantVillage images are single leaves photographed in a lab on plain backgrounds. Field photos and web photos are much harder, so expect lower accuracy in real use. That's why AVIS shows uncertainty and points people to experts.
 
