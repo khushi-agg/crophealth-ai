@@ -132,10 +132,14 @@ function LeafResult({ pred, base, gps, lang, onAgain, onSaved }: { pred: Predict
             <button className="link" onClick={() => setShowCam(!showCam)}>{showCam ? t("hideHeatmap") : t("showHeatmap")}</button>
           </div>
         )}
-        <div className="meter" aria-label={t("confidence")}>
-          <div style={{ width: pct(pred.confidence) }} />
-        </div>
-        <small>{t("confidence")}: {pct(pred.confidence)}</small>
+        {status !== "unsure" && (
+          <>
+            <div className="meter" aria-label={t("confidence")}>
+              <div style={{ width: pct(pred.confidence) }} />
+            </div>
+            <small>{t("confidence")}: {pct(pred.confidence)}</small>
+          </>
+        )}
         {pred.quality.warnings.map((w) => <p key={w} className="warn">📸 {t(w)}</p>)}
         {status === "unsure" && <p>{t("unsureBody")}</p>}
         <button className="ghost" onClick={() => speak(`${headline}. ${status === "unsure" ? t("unsureBody") : info.name + ". " + info.summary + " " + info.urgent.join(" ")}`, lang)}>🔊 {t("readAloud")}</button>

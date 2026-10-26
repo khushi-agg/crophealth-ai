@@ -94,7 +94,7 @@ Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. One presenter reads every line. Spoke
 2. **Pick your web images ahead of time** and save them to the phone's gallery:
    - Use **close-ups of a single leaf** that fills most of the frame. Plain or blurred backgrounds work best.
    - Use **one image per disease CropHealth AI knows**: tomato late blight, potato late blight, bell pepper bacterial spot, and one healthy leaf.
-   - Have **one intentionally bad photo** (blurry, or not a leaf) for the "not sure" moment.
+   - Have **one intentionally bad photo** for the "not sure" moment: something clearly **not a plant** (a car, a desk, a face) or a very dark photo. Avoid green cartoons or drawings of leaves. The AI only knows real leaves, and green drawings can fool it into a confident wrong answer.
    - **Test each one before recording.** Busy field shots can come back "not sure." Keep the images that work for scenes 4 and 6.
    - Only use images you have the right to use (your own, Creative Commons, or PlantVillage), and credit sources in the video description.
 3. **Backup images** are in `demo/leaves/` (held-out test leaves the model never trained on).
