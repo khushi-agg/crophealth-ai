@@ -6,7 +6,7 @@ const SIZE = 224;
 export const UNSURE_BELOW = 0.6;
 
 // The Vite dev server refuses dynamic imports from public/, so dev loads the runtime from node_modules.
-ort.env.wasm.wasmPaths = import.meta.env.DEV ? "/node_modules/onnxruntime-web/dist/" : `${BASE}ort/`;
+ort.env.wasm.wasmPaths = import.meta.env.DEV ? "/node_modules/onnxruntime-web/dist/" : new URL(`${BASE}ort/`, document.baseURI).href;
 ort.env.wasm.numThreads = 1; // no cross-origin isolation needed; fine for one 224px image
 
 export interface ModelInfo { classes: ClassId[]; test_accuracy: number; test_macro_f1: number; test_images: number; version: string }
