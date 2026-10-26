@@ -31,7 +31,7 @@ The Central Valley is one of the most productive farming regions in the world, a
 ## Features
 
 - 📷 **Leaf scan.** Take a photo or upload one. On-device MobileNetV2 inference via ONNX Runtime Web (WebAssembly).
-- 🔥 **Explainable results.** A class-activation heat map shows which part of the leaf drove the diagnosis.
+- 🌡️ **Thermal-style heat map.** The whole photo is shaded from blue (healthy) to red (disease), so each lesion and bacterial spot lights up where it is, with a spot count and the share of the leaf affected. It combines the model's class-activation map (where the AI looked) with pixel-level color analysis (washed-out, browned or dark tissue compared to the leaf's own healthy color). It's a visual aid, not a lab measurement.
 - ❔ **Honest uncertainty.** Calibrated confidence (temperature scaling). CropHealth AI says "not sure" below 60% confidence or when the photo has too little leaf in it.
 - 📸 **Photo quality checks.** Warns when a photo is too dark, too bright, blurry, or has too little leaf.
 - 🛸 **Drone / wide-photo mode.** Tiles each frame, skips soil and sky, scores plant zones, colors a scouting grid, and reads EXIF GPS. Accepts batch uploads.
