@@ -55,14 +55,14 @@ Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. One presenter reads every line. Spoke
 >
 > And the whole app works in English, Spanish and Punjabi, and it can read results out loud. *(let the Spanish audio play for ~3 seconds)*
 
-## Scene 6: Drone mode and field map (1:50–2:12)
+## Scene 6: Drone field-health map (1:50–2:12)
 
 | | |
 |---|---|
-| **Shot** | Scan tab → **Drone / wide photo** → upload a drone or wide field photo (or `demo/simulated_drone_frame.jpg`, with the caption "simulated"). The grid appears with red zones. Then Field log → **Map** with pins. |
-| **On-screen text** | `Drone mode: find hot spots across a whole field` |
+| **Shot** | Scan tab → **Drone field map** → upload `demo/drone/drone-damaged-field-73m.jpg`. Show the chips (73 m · 10.6 cm/px · GPS), toggle **Photo ↔ Health map**, scroll to the zone list and tap **Navigate** on zone 1. Then **Save** → Field log → **Map** with the zone pins. |
+| **On-screen text** | `Real drone photo · 73 m` · `Red = weak or thinning crop` · `Drone photo: D. Rabich, CC BY-SA 4.0` |
 
-> For big fields, CropHealth AI has a drone mode. It splits a low-flying drone photo into zones, checks each one, and marks in red where to walk first. It reads the GPS from the photo, so hot spots land on a field map.
+> For whole fields, I upload a real drone photo. The app reads the drone's own flight data: height, camera angle and GPS. It finds the crop field, and everywhere the crop is weaker or thinner than the rest of that field turns red. It even ignores the tractor tracks. Then it measures each problem zone and pins it on the map, so a farmer can walk straight to it and scan a leaf to find out what's wrong.
 
 ## Scene 7: Forecast and records (2:12–2:27)
 
@@ -107,5 +107,5 @@ Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. One presenter reads every line. Spoke
 
 - Say "about a second," not a specific number of milliseconds, unless you timed it on your phone.
 - Say the accuracy number **only** from `app/public/model/model-info.json`, and call it "on held-out test images."
-- Don't claim drone mode is field-proven. Say it "marks where to walk first."
+- Don't say the drone map identifies a specific disease. Say it "finds weak or thinning crop and shows where to walk first". The damaged area in the demo photo has no documented cause.
 - Don't quote farming statistics unless you've checked them on USDA, CDFA or USGS.

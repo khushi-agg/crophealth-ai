@@ -201,14 +201,22 @@ export function analyzeField(canvas: HTMLCanvasElement, meta: DroneMeta, seed?: 
   const like = new Float32Array(n);
   for (let i = 0; i < n; i++) like[i] = similar(i, s0) ? 1 : 0;
   const likeSmooth = boxBlur(like, w, h, Math.round(R / 2));
+  // Keep only the look-alike area connected to the chosen spot: "this field".
+  const core = new Float32Array(n);
+  const stack: number[] = [s0];
+  core[s0] = 1;
+  while (stack.length) {
+    const j = stack.pop()!, x = j % w;
+    for (const k of [j - w, j + w, x > 0 ? j - 1 : -1, x < w - 1 ? j + 1 : -1])
+      if (k >= 0 && k < n && !core[k] && likeSmooth[k] >= 0.5) { core[k] = 1; stack.push(k); }
+  }
   // Morphological closing (dilate, then erode) bridges damaged patches that cut into the field
   // from the frame edge, which hole-filling alone cannot reach.
   const CR = Math.round(Math.max(w, h) / 9);
-  const grown = boxBlur(likeSmooth.map((v) => (v >= 0.5 ? 1 : 0)), w, h, CR);
+  const grown = boxBlur(core, w, h, CR);
   const closed = boxBlur(grown.map((v) => (v > 0.02 ? 1 : 0)), w, h, CR);
   const field = new Uint8Array(n);
-  for (let i = 0; i < n; i++) field[i] = likeSmooth[i] >= 0.5 || closed[i] > 0.98 ? 1 : 0;
-  const stack: number[] = [];
+  for (let i = 0; i < n; i++) field[i] = core[i] || closed[i] > 0.98 ? 1 : 0;
   // Fill holes: anything not reachable from the border without crossing the field.
   const outside = new Uint8Array(n);
   for (let x = 0; x < w; x++) for (const y of [0, h - 1]) { const i = y * w + x; if (!field[i] && !outside[i]) { outside[i] = 1; stack.push(i); } }

@@ -2,8 +2,10 @@
 
 **CropHealth AI** (formerly AVIS, the Autonomous Vegetation Imaging System) is a free, offline-first phone app that helps
 California Central Valley growers and farmworkers catch crop disease early. Photograph a leaf,
-or upload a low-altitude drone photo, and an AI model **running entirely on the phone** checks it
-for disease in about a second. It needs no cell signal, no account, and no upload.
+and an AI model **running entirely on the phone** checks it
+for disease in about a second. Fly a drone over the field, and CropHealth AI maps weak or dying
+canopy across the whole field, measures it in acres, and pins every problem zone on a map. It needs no
+cell signal, no account, and no upload.
 
 > **Live app:** https://vyom-aggarwal.github.io/crophealth-ai/ (open on your phone and choose *Add to Home Screen*)
 >
@@ -26,7 +28,7 @@ The Central Valley is one of the most productive farming regions in the world, a
 | Many growers and farmworkers speak Spanish or Punjabi | The full interface and disease guidance are in **English, Spanish and Punjabi**, with read-aloud |
 | Late blight can destroy a tomato or potato field within weeks of cool, foggy weather | A **7-day risk forecast** warns *before* conditions favor disease |
 | A wrong AI answer costs real money | CropHealth AI shows **where** it saw disease, says **"not sure"** instead of guessing, and sends serious cases to a UC Cooperative Extension farm advisor or licensed PCA |
-| Big fields can't be walked leaf by leaf | **Drone mode** splits aerial photos into zones and pins hot spots on a map using the photo's GPS |
+| Big fields can't be walked leaf by leaf | **Drone field map** finds weak or thinning canopy across a whole field and GPS-pins each problem zone |
 
 ## Features
 
@@ -34,7 +36,7 @@ The Central Valley is one of the most productive farming regions in the world, a
 - 🌡️ **Thermal-style heat map.** The whole photo is shaded from blue (healthy) to red (disease), so each lesion and bacterial spot lights up where it is, with a spot count and the share of the leaf affected. It combines the model's class-activation map (where the AI looked) with pixel-level color analysis (washed-out, browned or dark tissue compared to the leaf's own healthy color). It's a visual aid, not a lab measurement.
 - ❔ **Honest uncertainty.** Calibrated confidence (temperature scaling). CropHealth AI says "not sure" below 60% confidence or when the photo has too little leaf in it.
 - 📸 **Photo quality checks.** Warns when a photo is too dark, too bright, blurry, or has too little leaf.
-- 🛸 **Drone / wide-photo mode.** Tiles each frame, skips soil and sky, scores plant zones, colors a scouting grid, and reads EXIF GPS. Accepts batch uploads.
+- 🛸 **Drone field-health map.** Upload straight-down drone photos (one or a whole flight). CropHealth AI finds the crop field (or the one you tap), then maps each spot's vegetation index (VARI), canopy thinning and bare gaps against that field's own typical values, shading it blue (healthy) to red (weak). Tractor tramlines and paths are recognized by shape and ignored. It reads the drone's own flight data (altitude, gimbal angle, heading, camera, GPS) to report ground resolution, field area in m²/acres and the size of every problem zone, and GPS-locates each zone with a **Navigate** link and pins on the field-log map. From the air it maps *where* the crop is struggling; the leaf scan then identifies *what* it is.
 - 🌦️ **Disease risk forecast.** Open-Meteo hourly weather plus the **Hutton criteria** for late blight and a warm-and-wet hour model for bacterial spot, for 14 Valley towns or your GPS location.
 - 📘 **Action guide.** Symptoms, spread conditions, urgent steps and prevention, based on UC IPM guidance, with links to the official pages.
 - 🗺️ **Private field log.** Scans are stored on the phone (IndexedDB) and shown as a list or map, with CSV export and a printable report.
@@ -48,6 +50,12 @@ The Central Valley is one of the most productive farming regions in the world, a
 | ![Pepper bacterial spot heat map](docs/screenshots/heatmap-pepper-bacterial-spot.png) | ![Tomato late blight heat map](docs/screenshots/heatmap-tomato-late-blight-2.png) |
 
 Rendered by the app itself from a held-out PlantVillage leaf and a Wikimedia Commons photo (see [demo/web_samples/CREDITS.md](demo/web_samples/CREDITS.md)). More in [docs/screenshots/](docs/screenshots/).
+
+## Drone field map in action
+
+![Drone field-health map of a damaged field](docs/screenshots/drone-damaged-field.png)
+
+A real DJI drone photo from 73 m. The app read the drone's flight data (10.6 cm per pixel, GPS), found the crop field, and shaded the thinned, damaged area red. It measured 2 problem zones (≈ 311 m² and ≈ 97 m²) and GPS-located each one. A healthy field for comparison: [docs/screenshots/drone-healthy-field.png](docs/screenshots/drone-healthy-field.png).
 
 ## What it detects
 
@@ -92,7 +100,7 @@ My first version ([legacy/](legacy/)) was a Keras webcam script. I listed its pr
 | Frozen backbone only | Two stages: train the head, then fine-tune the top MobileNetV2 blocks |
 | Overconfident softmax and no "unsure" state | Temperature scaling plus a 60% abstention threshold and photo-quality checks |
 | No random seeds | Seeded training (`SEED = 42`) |
-| Desktop webcam only | Offline phone app plus drone-photo mode |
+| Desktop webcam only | Offline phone app plus a drone field-health map |
 
 ## How it works
 
@@ -105,8 +113,9 @@ flowchart LR
   end
   subgraph Phone["On the phone (offline)"]
     E[Leaf photo] --> G[Crop 224×224 + quality check]
-    F[Drone frame] --> H[Tile grid, skip non-plant tiles]
-    H --> G
+    F[Drone frame + flight metadata] --> H[Find field, VARI + canopy cover vs field typical]
+    H --> K2[Problem zones in m², GPS pins]
+    K2 --> K
     G --> I[ONNX Runtime Web, WASM]
     D --> I
     I --> J[Diagnosis + heat map + 'not sure']
@@ -137,13 +146,14 @@ python ml/train.py
 
 Training writes `app/public/model/avis.onnx`, `model-info.json`, and the metrics and plots in `ml/results/`.
 
-**Demo images.** `demo/leaves/` holds held-out test leaves. `demo/simulated_drone_frame.jpg` is a **simulated** drone frame built from test leaves by [ml/make_demo_mosaic.py](ml/make_demo_mosaic.py).
+**Demo images.** `demo/leaves/` holds held-out test leaves, `demo/web_samples/` holds tested web photos, and `demo/drone/` holds **real DJI drone photos** with their original flight metadata (see [demo/drone/CREDITS.md](demo/drone/CREDITS.md)).
 
 ## Repository layout
 
 ```
 app/        React + TypeScript PWA (the farmer-facing app)
-  src/model.ts      on-device inference, heat maps, quality checks, drone tiling, EXIF GPS
+  src/model.ts      on-device leaf inference, lesion heat maps, quality checks, EXIF GPS
+  src/aerial.ts     drone field-health map: VARI, canopy cover, field finding, drone metadata, GPS pins
   src/risk.ts       weather-driven disease risk models
   src/diseases.ts   disease guidance in EN / ES / PA
   src/i18n.ts       interface text in EN / ES / PA
@@ -157,16 +167,17 @@ legacy/     original Keras + OpenCV prototype
 ## Limitations (stated plainly)
 
 1. Three diseases on three crops. Any other problem, such as powdery mildew, nutrient deficiency or pests, is outside what the model knows. CropHealth AI may say "not sure," or it may be wrong.
-2. Trained on lab images. Real field and drone performance **has not been validated yet**. Drone mode needs low flights (about 2–5 m) where individual leaves are visible.
-3. The risk forecast uses published rules of thumb, not a calibrated local model. It's a prompt to scout, not a spray decision.
-4. Spanish and Punjabi text should be reviewed by native-speaking growers.
-5. CropHealth AI is a screening tool, not a diagnosis. Treatment decisions belong with a UCCE farm advisor or licensed PCA.
+2. Trained on lab images. Real-field leaf accuracy **has not been validated yet**.
+3. The drone map uses an ordinary RGB camera. It finds *where* canopy is weak or thinning, but it can't tell disease from drought, pests or nutrient problems from the air; a leaf scan or an expert does that. It also hasn't been checked against ground-truth scouting yet, and works best with straight-down photos (gimbal −90°) from 20–80 m.
+4. The risk forecast uses published rules of thumb, not a calibrated local model. It's a prompt to scout, not a spray decision.
+5. Spanish and Punjabi text should be reviewed by native-speaking growers.
+6. CropHealth AI is a screening tool, not a diagnosis. Treatment decisions belong with a UCCE farm advisor or licensed PCA.
 
 ## Roadmap
 
 - Field-test with Central Valley growers and UCCE farm advisors; collect real field photos (with consent) to fine-tune
 - Add Valley crops: grapes (powdery mildew), almonds (hull rot), pistachios
-- Validate drone mode against ground-truth scouting
+- Validate the drone map against ground-truth scouting in Central Valley fields, and add multispectral (NDVI) camera support
 - Optional, opt-in anonymous outbreak map for neighboring growers
 
 ## Credits
