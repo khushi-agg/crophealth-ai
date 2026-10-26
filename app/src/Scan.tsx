@@ -6,7 +6,8 @@ import { addScan, getPosition } from "./store";
 import { DiseaseDetails } from "./Guide";
 
 type CropChoice = Crop | "auto";
-const pct = (v: number) => `${Math.round(v * 100)}%`;
+// Never display 100%: no screening model is certain.
+const pct = (v: number) => `${Math.min(99, Math.round(v * 100))}%`;
 const uid = () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
 
 export default function Scan({ onSaved }: { onSaved: () => void }) {

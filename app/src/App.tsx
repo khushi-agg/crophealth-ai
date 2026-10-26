@@ -178,7 +178,7 @@ function ScanRow({ s, lang, onDelete }: { s: ScanRecord; lang: Lang; onDelete?: 
       <div className="grow">
         <strong>{label}</strong>
         <small className="muted">{new Date(s.date).toLocaleString()}{s.field ? ` · ${s.field}` : ""}{s.lat ? " · 📍" : ""}</small>
-        {s.mode === "leaf" && !s.unsure && <small>{t("confidence")}: {Math.round(s.confidence * 100)}%</small>}
+        {s.mode === "leaf" && !s.unsure && <small>{t("confidence")}: {Math.min(99, Math.round(s.confidence * 100))}%</small>}
         {s.notes && <small>{s.notes}</small>}
       </div>
       {onDelete && <button className="link" onClick={onDelete} aria-label={t("del")}>🗑</button>}

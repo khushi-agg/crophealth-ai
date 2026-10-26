@@ -5,7 +5,8 @@ const BASE = import.meta.env.BASE_URL;
 const SIZE = 224;
 export const UNSURE_BELOW = 0.6;
 
-ort.env.wasm.wasmPaths = `${BASE}ort/`;
+// The Vite dev server refuses dynamic imports from public/, so dev loads the runtime from node_modules.
+ort.env.wasm.wasmPaths = import.meta.env.DEV ? "/node_modules/onnxruntime-web/dist/" : `${BASE}ort/`;
 ort.env.wasm.numThreads = 1; // no cross-origin isolation needed; fine for one 224px image
 
 export interface ModelInfo { classes: ClassId[]; test_accuracy: number; test_macro_f1: number; test_images: number; version: string }
@@ -129,7 +130,7 @@ export function drawCam(target: HTMLCanvasElement, base: HTMLCanvasElement, cam:
   small.width = small.height = 7;
   const sctx = small.getContext("2d")!, img = sctx.createImageData(7, 7);
   for (let i = 0; i < 49; i++) {
-    const v = cam[i] ** 1.5;
+    const v = Math.max(0, (cam[i] - 0.35) / 0.65) ** 1.2; // only the strongest evidence
     img.data.set([230, 40, 30, Math.round(v * 190)], i * 4);
   }
   sctx.putImageData(img, 0, 0);
