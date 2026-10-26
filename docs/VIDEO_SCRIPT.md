@@ -1,111 +1,112 @@
-# CropHealth AI: Congressional App Challenge demo video script
+# CropHealth AI: Congressional App Challenge video script
 
-**Target length: 2:45** (hard limit 3:00) · About 390 spoken words at a calm pace · Upload to YouTube as Public or Unlisted (check your district's rule)
+**Format:** two parts, one presenter.
+1. **On camera** (≈ 0:00–0:55): you, talking to the camera. No cutaways.
+2. **Faceless demo** (≈ 0:55–2:50): phone screen recording only, with your voice over it.
 
-Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. One presenter reads every line. Spoken lines are in quote blocks.
+**Target length: 2:50** (hard limit 3:00), about 400 spoken words at a calm pace. Upload to YouTube as Public or Unlisted (check your district's rule).
+
+Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. Lines in quote blocks are spoken. Wording in *[brackets]* is optional and can be cut if you run long.
 
 ---
 
-## Scene 1: Hook (0:00–0:15)
+## PART 1: On camera (0:00–0:55)
 
-| | |
-|---|---|
-| **Shot** | Close-up of a hand holding a phone over a tomato leaf, or a web photo of a blighted tomato field. Then cut to the presenter(s) on camera. |
-| **On-screen text** | `CropHealth AI · Crop disease checks that work without signal` |
+**Setup:** sit or stand facing the camera at eye level, in quiet, even light (a window in front of you, not behind you). If you can, film outdoors near a field, an orchard or a farm road, so the background shows where you live. One continuous take is fine. Jump cuts between sentences are fine too.
 
-> A farmer in the Central Valley notices dark spots on a tomato leaf. Is it nothing, or is it late blight, a disease that can wipe out a field in about two weeks? Out in the field, there's often no signal to look it up.
+**Lower-third text (add in editing):** `[NAME] · [SCHOOL] · [CITY], California`
 
-## Scene 2: Who I am (0:15–0:27)
-
-| | |
-|---|---|
-| **Shot** | You on camera, with a name lower-third |
-| **On-screen text** | `[NAME] · [SCHOOL] · [CITY], CA` |
-
-> Hi, I'm [NAME], a student at [SCHOOL] in [CITY]. I built CropHealth AI, a free phone app that checks crops for disease in about a second, even with no internet at all.
-
-## Scene 3: The problem (0:27–0:47)
-
-| | |
-|---|---|
-| **Shot** | B-roll of Valley farmland or a map of the Valley. Then three icons appear one by one: 📶❌ · 🗣️ · ⏱️ |
-| **On-screen text** | `No signal in the fields` · `Many growers speak Spanish or Punjabi` · `Disease spreads fast` |
-
-> The Central Valley is one of the most productive farming regions in the world. But I noticed three problems: many fields have weak cell service, many farmers and farmworkers here speak Spanish or Punjabi, and diseases spread faster than anyone can walk every row. So I designed CropHealth AI around all three.
-
-## Scene 4: Live demo, leaf scan (0:47–1:25)
-
-| | |
-|---|---|
-| **Shot** | **Screen recording.** First show the phone's **airplane mode icon**. Open CropHealth AI from the home screen → Scan → tap 🍅 Tomato → Choose from gallery → diseased tomato leaf → result appears. Tap **Show where**. Scroll to "What to do now." |
-| **On-screen text** | `✈️ Airplane mode: no internet` · `AI runs on the phone` |
-
-> Here's CropHealth AI in airplane mode. I pick tomato and choose a leaf photo. The AI model runs right on the phone, and in about a second it says *possible late blight*. Then it shows *where* it saw disease: these red areas are where the model focused, so the farmer doesn't have to just trust a black box.
+> Hi, I'm [NAME], and I'm a student at [SCHOOL] in [CITY], right in the middle of California's Central Valley.
 >
-> Below that are clear next steps based on University of California IPM guidance: what to look for, how it spreads, and to contact a farm advisor before spraying anything.
-
-## Scene 5: Honesty and accessibility (1:25–1:50)
-
-| | |
-|---|---|
-| **Shot** | Scan a blurry or non-leaf web image → amber **"Not sure — please retake"**. Then switch the language menu to **Español** and tap **🔊 Leer en voz alta**, letting about 3 seconds of audio play. Optionally flash **ਪੰਜਾਬੀ**. |
-| **On-screen text** | `Says "not sure" instead of guessing` · `English · Español · ਪੰਜਾਬੀ` |
-
-> When a photo is blurry or the AI isn't confident, CropHealth AI says *not sure* instead of guessing, because a wrong answer could cost a farmer their crop or money spent on sprays they didn't need.
+> Where I live, farming isn't just something you read about. It's the fields on the drive to school, the orchards along the highway, and the jobs that so many families here depend on. The Central Valley is one of the most productive farming regions in the world, and a lot of the food on America's tables starts right here.
 >
-> And the whole app works in English, Spanish and Punjabi, and it can read results out loud. *(let the Spanish audio play for ~3 seconds)*
+> But growing it is hard. A disease like late blight can spread through a tomato field in a week or two of cool, foggy weather, and by the time it's obvious, a big part of the crop can be gone. Out in the fields, cell signal is often weak. Many of the people who work these fields speak Spanish or Punjabi, and most plant apps only speak English and need the internet.
+>
+> So I built **CropHealth AI**: a free app that checks crops for disease right on the phone, in the field, with no signal needed. Let me show you how it works.
 
-## Scene 6: Drone field-health map (1:50–2:12)
+*(≈ 140 words, ≈ 55 seconds. Hard cut to the screen recording.)*
 
-| | |
-|---|---|
-| **Shot** | Scan tab → **Drone field map** → upload `demo/drone/drone-damaged-field-73m.jpg`. Show the chips (73 m · 10.6 cm/px · GPS) and the summary (2 problem zones · 19% of field), scroll to the zone list and tap **Navigate** on zone 1. Then **Save** → Field log → **Map** with the zone pins. |
-| **On-screen text** | `Real drone photo · 73 m` · `2 problem zones found · 19% of field` · `Drone photo: D. Rabich, CC BY-SA 4.0` |
+---
 
-> For whole fields, I upload a real drone photo. The app reads the drone's own flight data: height, camera angle and GPS. It finds the crop field and detects everywhere the crop is weaker or thinner than the rest of that field. It even ignores the tractor tracks. Then it measures each problem zone and pins it on the map, so a farmer can walk straight to it and scan a leaf to find out what's wrong.
+## PART 2: Faceless demo (0:55–2:50)
 
-## Scene 7: Forecast and records (2:12–2:27)
+**Everything below is screen recording with your voice-over.** Record the voice separately in a quiet room and lay it over the footage. Each scene lists what to show and what to say.
 
-| | |
-|---|---|
-| **Shot** | Risk tab → pick Fresno → 7-day cards. Then Field log → **Export CSV**. |
-| **On-screen text** | `7-day disease risk from live weather` |
+### Demo 1: Works offline (0:55–1:05)
 
-> The risk tab uses real weather forecasts and published disease models to warn farmers *before* conditions favor blight. Every scan is saved privately on the phone and can be exported for a farm advisor.
+**Show:** the phone's status bar with **airplane mode on**, then tap the CropHealth AI icon on the home screen. The app opens to the Home screen.
 
-## Scene 8: How I built it and what I learned (2:27–2:45)
+**On-screen text:** `✈️ No internet`
 
-| | |
-|---|---|
-| **Shot** | Quick cuts: the code editor showing `ml/train.py`, then `ml/results/confusion_matrix.png`, then `training_curves.png`. End on you. |
-| **On-screen text** | `TypeScript · React · Python · PyTorch · ONNX` · `99% accuracy on 1,094 held-out test images` |
+> This is CropHealth AI in airplane mode, just like out in a field with no signal.
 
-> I trained a MobileNetV2 neural network in Python on about 4,700 leaf images and tested it on images it had never seen. Then I exported it so it runs inside the phone's browser. My first version had real bugs, like feeding the model the wrong color order, and fixing them taught me how to test AI honestly. Next, I want to test CropHealth AI with local growers and add Valley crops like grapes and almonds. Thanks for watching!
+### Demo 2: Leaf scan (1:05–1:40)
 
-## End card (2:45–2:50)
+**Show:** **Scan** → tap **🍅 Tomato** → **Choose from gallery** → pick a tomato late blight leaf (`demo/web_samples/phone-1-tomato-late-blight.jpg`). The result appears: **"Possible disease found · Late blight"** with a confidence of about 99%. Tap **Show where**, then scroll slowly through **What to do now**.
 
-`CropHealth AI · github.com/vyom-aggarwal/crophealth-ai · vyom-aggarwal.github.io/crophealth-ai`
+**On-screen text:** `AI runs on the phone · about 1 second`
+
+> I pick tomato and choose a photo of a leaf. The AI runs right on the phone, and in about a second it says this is likely late blight. "Show where" highlights the part of the leaf the AI focused on, so a farmer can see why it made that call.
+>
+> Then it gives clear next steps, based on University of California pest-management guidance: what to look for, how it spreads, and to check with a farm advisor before spraying anything.
+
+### Demo 3: Honest when unsure (1:40–1:52)
+
+**Show:** **Scan another leaf** → upload a photo that isn't a plant (a car, a desk). The amber **"Not sure — please retake"** result appears.
+
+**On-screen text:** `Says "not sure" instead of guessing`
+
+> If the photo isn't clear, or the AI isn't confident, it says "not sure" instead of guessing. A wrong answer could cost a farmer a crop or money spent on sprays they didn't need.
+
+### Demo 4: Spanish, Punjabi and read-aloud (1:52–2:05)
+
+**Show:** go back to the late blight result. Open the language menu → **Español** (the whole screen switches) → tap **🔊 Leer en voz alta** and let about 3 seconds of audio play. Optionally switch to **ਪੰਜਾਬੀ** for a second.
+
+**On-screen text:** `English · Español · ਪੰਜਾਬੀ`
+
+> The entire app works in English, Spanish and Punjabi, and it can read results out loud. *(Let the Spanish audio play.)*
+
+### Demo 5: Drone field analysis (2:05–2:30)
+
+**Show:** **Scan** → **Drone field map** → upload `demo/drone/drone-damaged-field-73m.jpg`. Hold on the result: the chips (**73 m · 10.6 cm/px · GPS**), then **2 problem zones · 19% of field flagged · ≈ 2,122 m²**. Scroll to the zone list and tap **Navigate** on zone 1 (cut away before the map app opens if you're offline).
+
+**On-screen text:** `Real drone photo` · `Drone photo: D. Rabich, CC BY-SA 4.0`
+
+> Farms here are big, so CropHealth AI can also check a whole field from a drone photo. It reads the drone's own flight data, like its height and GPS, and finds the parts of the field where the crop is weaker or thinner than the rest. Here it found two problem zones covering about a fifth of the field, measured each one, and gave its exact location, so a farmer can walk straight there and scan a leaf to find out what's wrong.
+
+### Demo 6: Disease forecast and field log (2:30–2:42)
+
+**Show:** **Risk** tab with **Fresno** (or your town) selected, showing the 7-day cards. Then **Field log** → **Map** with saved scan pins → tap **Export CSV**.
+
+> The Risk tab uses the weather forecast and published disease models to warn farmers before conditions favor blight, which matters during our foggy winters. Every scan is saved privately on the phone and can be shared with a farm advisor.
+
+### Demo 7: Closing (2:42–2:50)
+
+**Show:** the Home screen, then an end card.
+
+**End card:** `CropHealth AI · vyom-aggarwal.github.io/crophealth-ai · github.com/vyom-aggarwal/crophealth-ai`
+
+> I built CropHealth AI for the farms and families I grew up around. Next, I want to test it with local growers and add more Valley crops, like grapes and almonds. Thanks for watching.
 
 ---
 
 ## Before you hit record
 
-1. **Install it like a real app.** Open the live link on the phone → Share → **Add to Home Screen** (iPhone) or ⋮ → **Install app** (Android). Open it once while online so the AI model downloads.
-2. **Pick your web images ahead of time** and save them to the phone's gallery:
-   - Use **close-ups of a single leaf** that fills most of the frame. Plain or blurred backgrounds work best.
-   - Use **one image per disease CropHealth AI knows**: tomato late blight, potato late blight, bell pepper bacterial spot, and one healthy leaf.
-   - Have **one intentionally bad photo** for the "not sure" moment: something clearly **not a plant** (a car, a desk, a face) or a very dark photo. Avoid green cartoons or drawings of leaves. The AI only knows real leaves, and green drawings can fool it into a confident wrong answer.
-   - **Test each one before recording.** Busy field shots can come back "not sure." Keep the images that work for scenes 4 and 6.
-   - Only use images you have the right to use (your own, Creative Commons, or PlantVillage), and credit sources in the video description.
-3. **Backup images** are in `demo/leaves/` (held-out test leaves the model never trained on).
-4. **Airplane mode**: turn it on *after* the app has loaded once, and make sure the icon is visible in the recording.
-5. **Screen recording**: iPhone Control Center → ⏺ Screen Recording; Android Quick Settings → Screen record. Turn on Do Not Disturb.
-6. **Audio**: record the voiceover separately in a quiet room if you can. A phone held about 6 inches from your mouth works fine.
-7. **Editing**: CapCut, iMovie or DaVinci Resolve (all free). Add the on-screen text above. Keep it **under 3:00**.
+1. **Install it like a real app.** Open the live link on your phone, then use **Share → Add to Home Screen** (iPhone) or **⋮ → Install app** (Android). Open it once while online so the AI model downloads.
+2. **Save these images to your phone's gallery:**
+   - `demo/web_samples/phone-1-tomato-late-blight.jpg` (Demo 2)
+   - a photo of something that isn't a plant (Demo 3)
+   - `demo/drone/drone-damaged-field-73m.jpg` (Demo 5)
+3. **Do a dry run in airplane mode.** Run every step above once before recording, so you know each result appears the way the script says.
+4. **Screen recording:** iPhone Control Center → ⏺ Screen Recording; Android Quick Settings → Screen record. Turn on **Do Not Disturb** first.
+5. **Voice-over:** record in a quiet room, phone about 6 inches from your mouth. Read slowly. It's easier to trim than to re-record.
+6. **On-camera part:** film horizontally (landscape), with the camera at eye level. If you're outdoors, check for wind noise.
+7. **Edit:** use CapCut, iMovie or DaVinci Resolve (all free). Add the on-screen text and end card, and keep the video **under 3:00**.
+8. **Credits in the YouTube description:** "Drone photo: Dietmar Rabich / Wikimedia Commons / CC BY-SA 4.0 (resized). Leaf photo: Scot Nelson / Wikimedia Commons / CC0."
 
-## Claims to keep accurate
+## Keep these claims accurate
 
-- Say "about a second," not a specific number of milliseconds, unless you timed it on your phone.
-- Say the accuracy number **only** from `app/public/model/model-info.json`, and call it "on held-out test images."
-- Don't say the drone map identifies a specific disease. Say it "finds weak or thinning crop and shows where to walk first". The damaged area in the demo photo has no documented cause.
-- Don't quote farming statistics unless you've checked them on USDA, CDFA or USGS.
+- Only say "about a second" for scan speed; don't give a specific time unless you've timed it on your phone.
+- If you mention accuracy, say "99% on over a thousand test images it had never seen," and add that real-field photos are harder.
+- Don't say the drone analysis identifies a specific disease. It finds weak or thinning crop and shows where to look. The damaged area in the demo photo has no documented cause.
+- Keep the Central Valley lines general (as written above) unless you've checked a specific statistic on USDA, CDFA or USGS.
