@@ -38,23 +38,16 @@ export function fileToImage(file: Blob): Promise<ImageBitmap> {
   return createImageBitmap(file);
 }
 
-/** Draw a region of the source onto a square canvas (center square crop by default). */
-export function regionToCanvas(src: CanvasImageSource & { width: number; height: number }, r?: { x: number; y: number; w: number; h: number }, size = SIZE) {
-  const sw = src.width, sh = src.height;
+/** Draw a region of the source onto a 224x224 canvas (center square crop by default). */
+export function regionToCanvas(src: CanvasImageSource & { width: number; height: number }, r?: { x: number; y: number; w: number; h: number }) {
+  const sw = src.width;
+  const sh = src.height;
   const side = Math.min(sw, sh);
   r ??= { x: (sw - side) / 2, y: (sh - side) / 2, w: side, h: side };
   const c = document.createElement("canvas");
-  c.width = c.height = size;
-  c.getContext("2d")!.drawImage(src, r.x, r.y, r.w, r.h, 0, 0, size, size);
+  c.width = c.height = SIZE;
+  c.getContext("2d")!.drawImage(src, r.x, r.y, r.w, r.h, 0, 0, SIZE, SIZE);
   return c;
-}
-
-function hsv(r: number, g: number, b: number) {
-  const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;
-  let h = d === 0 ? 0 : max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
-  h *= 60;
-  if (h < 0) h += 360;
-  return { h, s: max ? d / max : 0, v: max / 255 };
 }
 
 function isPlant(r: number, g: number, b: number) {
@@ -128,130 +121,22 @@ export async function classifyCanvas(canvas: HTMLCanvasElement, crop: Crop | "au
   return { classId, confidence: probs[classId], probs, diseaseProb, cam, quality, unsure: probs[classId] < UNSURE_BELOW || quality.warnings.includes("warnNoLeaf") };
 }
 
-/** Box blur of a size x size field with the given radius, using a summed-area table. */
-function boxBlur(src: Float32Array, size: number, radius: number) {
-  const w = size + 1, sat = new Float64Array(w * w), out = new Float32Array(size * size);
-  for (let y = 0; y < size; y++)
-    for (let x = 0; x < size; x++)
-      sat[(y + 1) * w + x + 1] = src[y * size + x] + sat[y * w + x + 1] + sat[(y + 1) * w + x] - sat[y * w + x];
-  for (let y = 0; y < size; y++) {
-    const y0 = Math.max(0, y - radius), y1 = Math.min(size, y + radius + 1);
-    for (let x = 0; x < size; x++) {
-      const x0 = Math.max(0, x - radius), x1 = Math.min(size, x + radius + 1);
-      out[y * size + x] = (sat[y1 * w + x1] - sat[y0 * w + x1] - sat[y1 * w + x0] + sat[y0 * w + x0]) / ((y1 - y0) * (x1 - x0));
-    }
+/** Paint a 7x7 CAM as a smooth red overlay on top of the scanned image. */
+export function drawCam(target: HTMLCanvasElement, base: HTMLCanvasElement, cam: Float32Array) {
+  const small = document.createElement("canvas");
+  small.width = small.height = 7;
+  const sctx = small.getContext("2d")!, img = sctx.createImageData(7, 7);
+  for (let i = 0; i < 49; i++) {
+    const v = Math.max(0, (cam[i] - 0.35) / 0.65) ** 1.2; // only the strongest evidence
+    img.data.set([230, 40, 30, Math.round(v * 190)], i * 4);
   }
-  return out;
-}
-
-export interface LesionMap { heat: Float32Array; size: number; spots: number; affected: number }
-
-/**
- * Pixel-level disease heat map. Colour analysis finds off-green tissue (yellow halos,
- * brown/black spots, grey blight) inside the leaf; the model's CAM then weights it so
- * only regions the AI actually relied on light up strongly.
- */
-export function lesionMap(display: HTMLCanvasElement, cam: Float32Array): LesionMap {
-  const S = display.width, n = S * S;
-  const px = display.getContext("2d")!.getImageData(0, 0, S, S).data;
-  const plant = new Float32Array(n), H = new Float32Array(n), Sat = new Float32Array(n), V = new Float32Array(n);
-  for (let i = 0; i < n; i++) {
-    const r = px[i * 4], g = px[i * 4 + 1], b = px[i * 4 + 2];
-    const c = hsv(r, g, b);
-    H[i] = c.h; Sat[i] = c.s; V[i] = c.v;
-    if (isPlant(r, g, b)) plant[i] = 1;
-  }
-  // Leaf region: plant pixels plus anything enclosed by them (dark spots sit inside the leaf).
-  const leaf = boxBlur(plant, S, Math.max(3, Math.round(S / 40)));
-  // Local brightness: a spot is dark relative to the leaf right around it, while a broad
-  // shadow darkens its whole neighbourhood and so does not count.
-  const localV = boxBlur(V, S, Math.max(4, Math.round(S / 28)));
-
-  // Baseline: this photo's typical healthy leaf colour (median hue and saturation of plant pixels).
-  const hueHist = new Uint32Array(360), satHist = new Uint32Array(101);
-  let plantPx = 0;
-  for (let i = 0; i < n; i++) if (plant[i]) { hueHist[Math.floor(H[i]) % 360]++; satHist[Math.round(Sat[i] * 100)]++; plantPx++; }
-  const median = (hist: Uint32Array) => { let acc = 0; for (let k = 0; k < hist.length; k++) if ((acc += hist[k]) * 2 >= plantPx) return k; return 0; };
-  const leafHue = plantPx ? median(hueHist) : 100, leafSat = plantPx ? median(satHist) / 100 : 0.4;
-
-  const raw = new Float32Array(n), inLeaf = new Uint8Array(n);
-  for (let i = 0; i < n; i++) {
-    if (!(plant[i] || leaf[i] >= 0.35)) continue;
-    inLeaf[i] = 1;
-    const h = H[i], s = Sat[i], v = V[i], lv = localV[i];
-    // Dark and washed-out signals only count well inside a leaf: at its rim, pixels blend
-    // with shadow or background and would otherwise light up the outline.
-    const enclosed = Math.max(0, Math.min(1, (leaf[i] - 0.7) / 0.2));
-    // Browner/yellower than the healthy leaf (hue shifted down toward orange), or red/purple.
-    // Vivid, bright orange/yellow is a flower or fruit rather than a dull lesion, and colour
-    // at the very rim is mostly blending with the background, so both count for less.
-    const vivid = s > 0.55 && v > 0.65 ? 0.15 : 1;
-    const hueShift = s >= 0.12 ? vivid * (0.3 + 0.7 * enclosed) * (h > 300 ? 1 : Math.max(0, Math.min(1, (leafHue - 18 - h) / 30))) : 0;
-    // Washed-out grey/beige tissue (late blight, dead patches); skip bright glare.
-    const desat = v < 0.88 ? 0.9 * enclosed * Math.max(0, Math.min(1, (0.7 * leafSat - s) / (0.45 * leafSat || 1))) : 0;
-    const dark = enclosed * Math.max(0, Math.min(1, (0.82 * lv - v) / (0.3 * lv || 1)));
-    raw[i] = Math.max(hueShift, desat, dark);
-  }
-  // Weight by the bilinearly upsampled 7x7 class activation map. Leaf pixels the model focused
-  // on (CAM >= 0.3) define the leaf under examination for the "% affected" readout.
-  const focus = new Uint8Array(n);
-  let focusPx = 0;
-  for (let y = 0; y < S; y++) {
-    const cy = Math.min(6, Math.max(0, ((y + 0.5) / S) * 7 - 0.5)), y0 = Math.floor(cy), y1 = Math.min(6, y0 + 1), fy = cy - y0;
-    for (let x = 0; x < S; x++) {
-      const i = y * S + x;
-      if (!inLeaf[i]) continue;
-      const cx = Math.min(6, Math.max(0, ((x + 0.5) / S) * 7 - 0.5)), x0 = Math.floor(cx), x1 = Math.min(6, x0 + 1), fx = cx - x0;
-      const a = cam[y0 * 7 + x0] * (1 - fx) + cam[y0 * 7 + x1] * fx, b = cam[y1 * 7 + x0] * (1 - fx) + cam[y1 * 7 + x1] * fx;
-      const c = a * (1 - fy) + b * fy;
-      if (c >= 0.3) { focus[i] = 1; focusPx++; }
-      raw[i] *= 0.15 + 0.85 * c; // background foliage the AI ignored stays cool
-    }
-  }
-  const heat = boxBlur(raw, S, Math.max(1, Math.round(S / 224)));
-
-  // Severity: connected hot regions (spots) and the share of the examined leaf they cover.
-  const hot = new Uint8Array(n);
-  let hotFocus = 0;
-  for (let i = 0; i < n; i++) if (heat[i] >= 0.35) { hot[i] = 1; hotFocus += focus[i]; }
-  const minArea = 6 * (S / 224) ** 2, stack: number[] = [];
-  let spots = 0;
-  for (let i = 0; i < n; i++) {
-    if (hot[i] !== 1) continue;
-    let area = 0;
-    hot[i] = 2; stack.push(i);
-    while (stack.length) {
-      const j = stack.pop()!, x = j % S;
-      area++;
-      for (const k of [j - S, j + S, x > 0 ? j - 1 : -1, x < S - 1 ? j + 1 : -1])
-        if (k >= 0 && k < n && hot[k] === 1) { hot[k] = 2; stack.push(k); }
-    }
-    if (area >= minArea) spots++;
-  }
-  return { heat, size: S, spots, affected: focusPx ? hotFocus / focusPx : 0 };
-}
-
-// Thermal-style colour scale: cool blue (healthy) -> cyan -> green -> yellow -> red (disease).
-const STOPS = [[40, 70, 210], [30, 185, 230], [70, 200, 90], [250, 205, 40], [225, 30, 30]];
-const LUT = Array.from({ length: 256 }, (_, i) => {
-  const t = (i / 255) * (STOPS.length - 1), k = Math.min(STOPS.length - 2, Math.floor(t)), f = t - k;
-  return STOPS[k].map((c, j) => c + (STOPS[k + 1][j] - c) * f);
-});
-
-/** Shade the whole photo with the heat map so every spot shows up at its exact location. */
-export function drawHeatmap(target: HTMLCanvasElement, display: HTMLCanvasElement, map: LesionMap) {
-  const S = map.size;
-  target.width = target.height = S;
+  sctx.putImageData(img, 0, 0);
+  target.width = target.height = SIZE;
   const ctx = target.getContext("2d")!;
-  ctx.drawImage(display, 0, 0);
-  const img = ctx.getImageData(0, 0, S, S), d = img.data;
-  for (let i = 0; i < S * S; i++) {
-    const v = Math.min(1, map.heat[i] * 1.9), col = LUT[Math.round(v * 255)], a = 0.5 + 0.25 * v;
-    d[i * 4] = d[i * 4] * (1 - a) + col[0] * a;
-    d[i * 4 + 1] = d[i * 4 + 1] * (1 - a) + col[1] * a;
-    d[i * 4 + 2] = d[i * 4 + 2] * (1 - a) + col[2] * a;
-  }
-  ctx.putImageData(img, 0, 0);
+  ctx.drawImage(base, 0, 0);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(small, 0, 0, SIZE, SIZE);
 }
 
 export function thumbnail(src: CanvasImageSource, w: number, h: number, max = 320) {

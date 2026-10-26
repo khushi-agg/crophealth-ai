@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { DISEASES, isHealthy, type Crop } from "./diseases";
 import { speak, useT } from "./i18n";
-import { classifyCanvas, drawHeatmap, fileToImage, lesionMap, loadModel, readExifGps, regionToCanvas, thumbnail, type Prediction } from "./model";
+import { classifyCanvas, drawCam, fileToImage, loadModel, readExifGps, regionToCanvas, thumbnail, type Prediction } from "./model";
 import { analyzeField, drawFieldHealth, frameCanvas, M2_PER_ACRE, readDroneMeta, type DroneMeta } from "./aerial";
 import { addScan, getPosition } from "./store";
 import { DiseaseDetails } from "./Guide";
@@ -52,7 +52,7 @@ function LeafScan({ crop, onSaved }: { crop: CropChoice; onSaved: () => void }) 
   const camRef = useRef<HTMLInputElement>(null);
   const galRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
-  const [res, setRes] = useState<{ pred: Prediction; base: HTMLCanvasElement; display: HTMLCanvasElement; gps: { lat: number; lon: number } | null } | null>(null);
+  const [res, setRes] = useState<{ pred: Prediction; base: HTMLCanvasElement; gps: { lat: number; lon: number } | null } | null>(null);
 
   async function handle(file?: File) {
     if (!file) return;
@@ -61,9 +61,8 @@ function LeafScan({ crop, onSaved }: { crop: CropChoice; onSaved: () => void }) 
     try {
       const img = await fileToImage(file);
       const base = regionToCanvas(img);
-      const display = regionToCanvas(img, undefined, 448); // sharper copy for the heat map
       const [pred, gps] = await Promise.all([classifyCanvas(base, crop), readExifGps(file)]);
-      setRes({ pred, base, display, gps });
+      setRes({ pred, base, gps });
     } finally {
       setBusy(false);
     }
@@ -86,10 +85,9 @@ function LeafScan({ crop, onSaved }: { crop: CropChoice; onSaved: () => void }) 
   );
 }
 
-function LeafResult({ pred, base, display, gps, lang, onAgain, onSaved }: { pred: Prediction; base: HTMLCanvasElement; display: HTMLCanvasElement; gps: { lat: number; lon: number } | null; lang: "en" | "es" | "pa"; onAgain: () => void; onSaved: () => void }) {
+function LeafResult({ pred, base, gps, lang, onAgain, onSaved }: { pred: Prediction; base: HTMLCanvasElement; gps: { lat: number; lon: number } | null; lang: "en" | "es" | "pa"; onAgain: () => void; onSaved: () => void }) {
   const { t } = useT();
-  const [showHeat, setShowHeat] = useState(!isHealthy(pred.classId) && !pred.unsure);
-  const map = useMemo(() => lesionMap(display, pred.cam), [display, pred.cam]);
+  const [showCam, setShowCam] = useState(!isHealthy(pred.classId));
   const [field, setField] = useState("");
   const [notes, setNotes] = useState("");
   const [useGps, setUseGps] = useState(true);
@@ -102,9 +100,9 @@ function LeafResult({ pred, base, display, gps, lang, onAgain, onSaved }: { pred
 
   useEffect(() => {
     const c = view.current!;
-    if (showHeat) drawHeatmap(c, display, map);
-    else { c.width = c.height = display.width; c.getContext("2d")!.drawImage(display, 0, 0); }
-  }, [showHeat, display, map]);
+    if (showCam) drawCam(c, base, pred.cam);
+    else { c.width = c.height = 224; c.getContext("2d")!.drawImage(base, 0, 0); }
+  }, [showCam, base, pred.cam]);
 
   const headline = status === "unsure" ? t("resultUnsure") : status === "healthy" ? t("resultHealthy") : t("resultDiseased");
 
@@ -129,23 +127,11 @@ function LeafResult({ pred, base, display, gps, lang, onAgain, onSaved }: { pred
           </div>
         </div>
         <canvas ref={view} className="scan-img" />
-        {status !== "unsure" && (
-          <>
-            <div className="segmented small" role="tablist">
-              <button role="tab" aria-selected={!showHeat} className={showHeat ? "" : "on"} onClick={() => setShowHeat(false)}>📷 {t("heatPhoto")}</button>
-              <button role="tab" aria-selected={showHeat} className={showHeat ? "on" : ""} onClick={() => setShowHeat(true)}>🌡️ {t("heatMap")}</button>
-            </div>
-            {showHeat && (
-              <>
-                <div className="legend" aria-hidden="true" />
-                <div className="row between small"><span>{t("legendHealthy")}</span><span>{t("legendDisease")}</span></div>
-                <small>{t("heatmap")}</small>
-                {!healthy && (
-                  <p className="severity">≈ {map.spots} {t("spotsFound")} · {Math.max(1, Math.round(map.affected * 100))}% {t("leafAffected")}</p>
-                )}
-              </>
-            )}
-          </>
+        {!healthy && !pred.unsure && (
+          <div className="row between">
+            <small>{showCam ? t("heatmap") : ""}</small>
+            <button className="link" onClick={() => setShowCam(!showCam)}>{showCam ? t("hideHeatmap") : t("showHeatmap")}</button>
+          </div>
         )}
         {status !== "unsure" && (
           <>
