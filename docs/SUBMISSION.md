@@ -29,7 +29,7 @@ The full script is in [VIDEO_SCRIPT.md](VIDEO_SCRIPT.md). It has two parts:
 | **1. On camera** | 0:00–0:50 | You, talking to the camera: living in the Central Valley, why farming matters here, and the problems (fast-spreading disease, apps not built for farmers or only in English) that led you to build CropHealth AI. |
 | **2. Faceless demo** | 0:50–2:40 | Phone screen recording with your voice-over: leaf scan + next steps → "Not sure" → Spanish + read-aloud → drone field analysis → risk forecast + field log → closing and end card. |
 
-Images to save to your phone before recording: `demo/web_samples/phone-1-tomato-late-blight.jpg`, a photo that isn't a plant, and `demo/drone/drone-damaged-field-73m.jpg`. Credit lines for the YouTube description are in the script.
+Photos to save to your phone before recording: the three files in `demo/video/` (tested on the live app; credits in `demo/video/CREDITS.md`). Credit lines for the YouTube description are in the script.
 
 ## What judges look for, and where CropHealth AI shows it
 

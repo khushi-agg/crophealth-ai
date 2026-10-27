@@ -34,7 +34,7 @@ Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. Lines in quote blocks are spoken.
 
 ### Demo 1: Leaf scan (0:50–1:25)
 
-**Show:** open CropHealth AI from the home screen → **Scan** → tap **🍅 Tomato** → **Choose from gallery** → pick a tomato late blight leaf (`demo/web_samples/phone-1-tomato-late-blight.jpg`). The result appears: **"Possible disease found · Late blight"** with a confidence of about 99%. Then scroll slowly through **What to do now**.
+**Show:** open CropHealth AI from the home screen → **Scan** → tap **🍅 Tomato** → **Choose from gallery** → pick `1-leaf-scan-tomato-late-blight.jpg`. The result appears: **"Possible disease found · Late blight"** with a confidence of about 99%. Then scroll slowly through **What to do now**.
 
 **On-screen text:** `AI runs on the phone · about 1 second`
 
@@ -44,7 +44,7 @@ Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. Lines in quote blocks are spoken.
 
 ### Demo 2: Honest when unsure (1:25–1:37)
 
-**Show:** **Scan another leaf** → upload a photo that isn't a plant (a car, a desk). The amber **"Not sure — please retake"** result appears.
+**Show:** **Scan another leaf** → upload `2-not-sure-desk.jpg` (a photo of a desk). The amber **"Not sure — please retake"** result appears.
 
 **On-screen text:** `Says "not sure" instead of guessing`
 
@@ -60,7 +60,7 @@ Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. Lines in quote blocks are spoken.
 
 ### Demo 4: Drone field analysis (1:50–2:15)
 
-**Show:** **Scan** → **Drone field map** → upload `demo/drone/drone-damaged-field-73m.jpg`. Hold on the result: the chips (**73 m · 10.6 cm/px · GPS**), then **2 problem zones · 19% of field flagged · ≈ 2,122 m²**. Scroll to the zone list and tap **Navigate** on zone 1 (cut away before the map app opens).
+**Show:** **Scan** → **Drone field map** → upload `3-drone-field-73m.jpg`. Hold on the result: the chips (**73 m · 10.6 cm/px · GPS**), then **2 problem zones · 19% of field flagged · ≈ 2,122 m²**. Scroll to the zone list and tap **Navigate** on zone 1 (cut away before the map app opens).
 
 **On-screen text:** `Real drone photo` · `Drone photo: D. Rabich, CC BY-SA 4.0`
 
@@ -85,16 +85,16 @@ Replace `[NAME]`, `[SCHOOL]` and `[CITY]`. Lines in quote blocks are spoken.
 ## Before you hit record
 
 1. **Install it like a real app.** Open the live link on your phone, then use **Share → Add to Home Screen** (iPhone) or **⋮ → Install app** (Android). Open it once before recording so the AI model loads.
-2. **Save these images to your phone's gallery:**
-   - `demo/web_samples/phone-1-tomato-late-blight.jpg` (Demo 1)
-   - a photo of something that isn't a plant (Demo 2)
-   - `demo/drone/drone-damaged-field-73m.jpg` (Demo 4)
+2. **Save the three photos in `demo/video/` to your phone's gallery** (tested on the live app; see `demo/video/CREDITS.md`):
+   - `1-leaf-scan-tomato-late-blight.jpg` (Demo 1)
+   - `2-not-sure-desk.jpg` (Demo 2). Use this exact photo: some random non-plant photos, like a car with trees behind it, get misread.
+   - `3-drone-field-73m.jpg` (Demo 4)
 3. **Do a dry run.** Run every step above once before recording, so you know each result appears the way the script says.
 4. **Screen recording:** iPhone Control Center → ⏺ Screen Recording; Android Quick Settings → Screen record. Turn on **Do Not Disturb** first.
 5. **Voice-over:** record in a quiet room, phone about 6 inches from your mouth. Read slowly. It's easier to trim than to re-record.
 6. **On-camera part:** film horizontally (landscape), with the camera at eye level. If you're outdoors, check for wind noise.
 7. **Edit:** use CapCut, iMovie or DaVinci Resolve (all free). Add the on-screen text and end card, and keep the video **under 3:00**.
-8. **Credits in the YouTube description:** "Drone photo: Dietmar Rabich / Wikimedia Commons / CC BY-SA 4.0 (resized). Leaf photo: Scot Nelson / Wikimedia Commons / CC0."
+8. **Credits in the YouTube description:** "Drone photo: Dietmar Rabich / Wikimedia Commons / CC BY-SA 4.0 (resized). Leaf photo: Scot Nelson / Wikimedia Commons / CC0. Desk photo: FirmBee / Wikimedia Commons / CC0."
 
 ## Keep these claims accurate
 
